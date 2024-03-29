@@ -1,0 +1,91 @@
+App
+
+Transactions
+- Player player
+- Turn turn
+- int amount
+
+Rule
+- int maxTurns
+- int maxPlayers
+- int maxDecisions
+- int citizenDictatorRatio
+- Action dictatorDefault
+- Action citizenDefault
+- sortTurns()
+- sortPlayers()
+
+Game
+- Rule rule
+- List<Player> players
+- List<Turn> turns
+- List<Bid> bids
+- List<Transaction> transactions
+
+Position
+- int X
+- int Y
+
+Direction
+- LEFT
+- RIGHT
+- UP
+- DOWN
+
+Player
+- String id
+- String name
+- Board board
+- Position position
+- int wins
+- int losses
+- int balance
+- int score
+- move(Direction)
+
+
+- int getWins()
+- int getLosses()
+- int getBalance()
+- int getScore()
+
+
+abstract Character extends Player
+- Character(Player, Game)
+- play(Action)
+
+Dictator extends Character
+- Bid makeBid(Player, Amount)
+
+Citizen extends Character
+
+Bid
+- int amount
+- Player player
+- Game game
+
+Action (functional interface)
+- action(Player, Game)
+
+BidAction (functional interface)
+- action(Player, Game, Bid)
+
+offerAction = (player, game, bid) => {}
+acceptAction = (player, game, bid) => {}
+rejectAction = (player, game, bid) => {}
+
+Turn
+- List<Map<Player, Action>> events
+
+Board
+- List<Tile> tiles
+- List<Player> players
+- Board(int X, int Y)
+- join(Player)
+- leave(Player)
+
+Tile
+- Position position
+
+GameTile extends Tile
+- Game game

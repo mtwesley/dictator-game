@@ -1,0 +1,28 @@
+src/
+└── main/
+    └── java/
+        └── com/
+            └── yourcompany/
+                └── yourproject/
+                    ├── model/
+                    │   ├── player/
+                    │   │   ├── Player.java
+                    │   │   ├── Dictator.java
+                    │   │   ├── Citizen.java
+                    │   │   └── action/
+                    │   │       ├── Action.java
+                    │   │       └── BidAction.java  # Consider renaming if related to Offer
+                    │   │
+                    │   └── game/
+                    │       ├── Game.java
+                    │       ├── Rule.java
+                    │       ├── Turn.java
+                    │       ├── Offer.java  # Renamed from Bid
+                    │       └── board/
+                    │           ├── Board.java
+                    │           ├── Tile.java
+                    │           └── GameTile.java
+                    │
+                    └── service/
+                        ├── PlayerService.java
+                        └── GameService.java

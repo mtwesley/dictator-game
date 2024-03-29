@@ -1,0 +1,25 @@
+Application - contains the levels, board, tiles, and players - logic to transition each
+
+Game - variant of the dictator game, determines the rules and what moves can be made
+
+Player - logged in user, can be a dictator or citizen (or maybe other positions) - has private information and can make some of it public to play higher levels
+
+Turn - cycle by each player, allowing them to make a move if one is avialble to them - if a player disappears, then the default move is made for them during their turn
+
+Move - decision made by players (in some games, only certain players can make moves, and only certain types of moves exist)
+
+Board - entire surface of the game, where players can end up; different levels have different boards
+
+Tile - specific "games" that can be played, players move between tiles -- in games where multiple players are used, then players on the same tile can come together into a game
+
+
+Rules
+- dictators rise a level after winning all tiles in a level 
+- tile position chosen randomly (or maybe not)
+- winning a tile usually means giving or receiving a certain percentage of the endowment during that turn compared to everyone ever -- so for example, you can either give give more than most people or receive more than most people, in that turn, to win
+
+there are many variants to the game, and they can be played in progression as players win (and advance in their level) and move around tiles on a board (for that level) 
+
+turns are timed -- universally -- pegged to UTC
+each turn at the lowest level is 60 seconds (1 minute)
+each level the turns get shorter in time, perhaps up to 10 seconds
