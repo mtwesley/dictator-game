@@ -20,9 +20,9 @@ src/
                     │       ├── Offer.java
                     │       └── board/
                     │           ├── Board.java
-                    │           ├── Tile.java
-                    │           ├── Position.java
                     │           ├── Direction.java
+                    │           ├── Position.java
+                    │           ├── Tile.java
                     │           └── GameTile.java
                     │
                     └── service/

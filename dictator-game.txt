@@ -20,6 +20,8 @@ Rules
 
 there are many variants to the game, and they can be played in progression as players win (and advance in their level) and move around tiles on a board (for that level) 
 
-turns are timed -- universally -- pegged to UTC
-each turn at the lowest level is 60 seconds (1 minute)
-each level the turns get shorter in time, perhaps up to 10 seconds
+turns are timed -- universally -- pegged to UTC -- 2 minutes within the entire network
+decision-making time depends on the number of players, and the distribution of dictators and citizens
+maximum time is 60 seconds (1 minute) for each, minimum number of players is 2 (1 dictator & 1 citizen)
+if everyone is same role, either all citizens or all dictators, then no game is played
+each level the turns get shorter in time, perhaps as low as 10 seconds
