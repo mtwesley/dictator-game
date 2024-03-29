@@ -21,6 +21,8 @@ src/
                     │       └── board/
                     │           ├── Board.java
                     │           ├── Tile.java
+                    │           ├── Position.java
+                    │           ├── Direction.java
                     │           └── GameTile.java
                     │
                     └── service/
