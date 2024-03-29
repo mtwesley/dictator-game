@@ -11,13 +11,13 @@ src/
                     │   │   ├── Citizen.java
                     │   │   └── action/
                     │   │       ├── Action.java
-                    │   │       └── BidAction.java  # Consider renaming if related to Offer
+                    │   │       └── OfferAction.java
                     │   │
                     │   └── game/
                     │       ├── Game.java
                     │       ├── Rule.java
                     │       ├── Turn.java
-                    │       ├── Offer.java  # Renamed from Bid
+                    │       ├── Offer.java
                     │       └── board/
                     │           ├── Board.java
                     │           ├── Tile.java
