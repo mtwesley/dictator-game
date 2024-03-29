@@ -1,5 +1,6 @@
 package com.mtwesley.dictator.model.player;
 
+import com.mtwesley.dictator.model.game.board.Position;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
