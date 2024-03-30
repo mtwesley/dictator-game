@@ -79,16 +79,31 @@ Turn
 - List<Map<Player, Action>> events
 
 Board
+- int width
+- int height
 - List<Tile> tiles
 - List<Player> players
-- Board(int X, int Y) #dimensions
+- Board(int width, int height) #dimensions
 - join(Player)
 - leave(Player)
+- isValidPosition()
 
 Tile
 - Board board
 - Position position
 
-
 GameTile extends Tile
 - Game game
+
+
+tiles likely need to implement an interface called Playable (or if you have a better name)
+that should have a method called play() which happens when a player lands on a tile at the position they moveTo()
+players move from tile to tile
+the regular Tile does nothign on play()
+other tiles may do other things to players
+maximum number of players per tile -- likely needs to be set on the board
+some function needs to check to make sure this limit is kept -- prevents overcrowding
+different boards will have different maximum numbers
+boards will be how we incorporate "levels" into the gameplay
+the function to check if a player is able to move to a particular tile may need to be on the board
+add other suggestions as you see fit, make sure to use lombok
