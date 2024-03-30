@@ -79,21 +79,27 @@ public abstract class Board {
         return true;
     }
 
-    public boolean join(Player player, Position position) {
-        int index = getIndexFromPosition(position);
-        if (isValidPosition(position) && playerCounts[index] < maxPlayersPerTile) {
-            playerCounts[index]++;
-            playerPositions.put(player, position);
+    public boolean join(Player player) {
+        Position position = getRandomPosition();
+        if (position != null) {
+            int index = getIndexFromPosition(position);
+            if (playerCounts[index] < maxPlayersPerTile) {
+                playerCounts[index]++;
+                playerPositions.put(player, position);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean leave(Player player) {
+        Position position = playerPositions.remove(player);
+        if (position != null) {
+            int index = getIndexFromPosition(position);
+            playerCounts[index]--;
             return true;
         }
         return false;
     }
 
-    public void leave(Player player) {
-        Position position = playerPositions.remove(player);
-        if (position != null) {
-            int index = getIndexFromPosition(position);
-            playerCounts[index]--;
-        }
-    }
 }
