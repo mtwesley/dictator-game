@@ -79,7 +79,12 @@ public abstract class Board {
         return true;
     }
 
-dcomm            return true;
+    public boolean join(Player player, Position position) {
+        int index = getIndexFromPosition(position);
+        if (isValidPosition(position) && playerCounts[index] < maxPlayersPerTile) {
+            playerCounts[index]++;
+            playerPositions.put(player, position);
+            return true;
         }
         return false;
     }
