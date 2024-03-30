@@ -15,14 +15,9 @@ import lombok.NoArgsConstructor;
 public class Player {
     private String id;
     private String name;
-    private Board board;
-    private Position position;
     private int wins;
     private int losses;
     private int balance;
     private int score;
 
-    public void move(Direction direction) {
-        System.out.println(name + " moves " + direction + " to a new position.");
-    }
 }
