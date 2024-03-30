@@ -1,11 +1,9 @@
 package com.mtwesley.dictator.model.game.board.tile;
 
 import com.mtwesley.dictator.model.game.board.Board;
-import com.mtwesley.dictator.model.game.board.Playable;
 import com.mtwesley.dictator.model.game.board.Position;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class Tile implements Playable {
