@@ -2,89 +2,93 @@ package com.mtwesley.dictator.model.game.board;
 
 import com.mtwesley.dictator.model.game.board.tile.Tile;
 import com.mtwesley.dictator.model.player.Player;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
-@Getter
-@Setter
-public class Board {
-    private final int width;
-    private final int height;
-    private final int level;
-    private Tile[] tiles;
-    private Set<Player> players;
-    private int maxPlayersPerTile;
 
-    public Board(int width, int height, int level, int maxPlayersPerTile) {
-        this.width = width;
-        this.height = height;
-        this.level = level;
-        this.tiles = new Tile[width * height];
-        this.players = new HashSet<>();
+public abstract class Board {
+    private Random random = new Random();
+    protected Tile[] tiles;
+    protected Map<Player, Position> playerPositions;
+    protected int[] playerCounts;
+    protected int maxPlayersPerTile;
+
+    public Board(int size, int maxPlayersPerTile) {
+        this.tiles = new Tile[size];
+        this.playerPositions = new HashMap<>();
+        this.playerCounts = new int[size];
         this.maxPlayersPerTile = maxPlayersPerTile;
         initializeTiles();
     }
 
-    private void initializeTiles() {
-        for (int i = 0; i < tiles.length; i++) {
-            int x = i % width;
-            int y = i / width;
-            tiles[i] = new Tile(this, new Position(x, y));
-        }
+    protected abstract void initializeTiles();
+    protected abstract boolean isValidPosition(Position position);
+    protected abstract Position move(Position position, Direction direction);
+    public abstract int getIndexFromPosition(Position position);
+    public abstract Position getPositionFromIndex(int index);
+
+    protected Position getRandomPosition() {
+        return getRandomPosition(false);
     }
 
-    public boolean join(Player player) {
-        if (players.size() < maxPlayersPerTile) {
-            return players.add(player);
+    protected Position getRandomPosition(boolean isVacant) {
+        int start = random.nextInt(tiles.length);
+        if (isVacant) {
+            for (int i = 0; i < tiles.length; i++) {
+                int index = (start + i) % tiles.length;
+                if (playerCounts[index] < maxPlayersPerTile) {
+                    return getPositionFromIndex(index);
+                }
+            }
+        } else {
+            return getPositionFromIndex(start);
+        }
+        return null;
+    }
+
+    public boolean movePlayer(Player player, Direction direction) {
+        Position currentPosition = playerPositions.get(player);
+        if (currentPosition == null) {
+            return false;
+        }
+        Position newPosition = move(currentPosition, direction);
+        if (newPosition == null || !isValidPosition(newPosition)) {
+            return false;
+        }
+
+        int currentIndex = getIndexFromPosition(currentPosition);
+        int newIndex = getIndexFromPosition(newPosition);
+
+        if (playerCounts[newIndex] < maxPlayersPerTile) {
+            playerCounts[currentIndex]--;
+            playerCounts[newIndex]++;
+            playerPositions.put(player, newPosition);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFull() {
+        for (int count : playerCounts) {
+            if (count < maxPlayersPerTile) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+dcomm            return true;
         }
         return false;
     }
 
     public void leave(Player player) {
-        players.remove(player);
-    }
-
-    private boolean isValidPosition(Position position) {
-        int index = position.getY() * width + position.getX();
-        return position.getX() >= 0 && position.getX() < width &&
-                position.getY() >= 0 && position.getY() < height &&
-                index >= 0 && index < tiles.length;
-    }
-
-    private Position move(Position position, Direction direction) {
-        int newX = position.getX();
-        int newY = position.getY();
-
-        if (direction == Direction.LEFT) {
-            newX--;
-        } else if (direction == Direction.RIGHT) {
-            newX++;
-        } else if (direction == Direction.UP) {
-            newY--;
-        } else if (direction == Direction.DOWN) {
-            newY++;
+        Position position = playerPositions.remove(player);
+        if (position != null) {
+            int index = getIndexFromPosition(position);
+            playerCounts[index]--;
         }
-
-        Position newPosition = new Position(newX, newY);
-        if (isValidPosition(newPosition)) {
-            return newPosition;
-        } else {
-            throw new IllegalArgumentException("Invalid move");
-        }
-    }
-
-    public void movePlayer(Player player, Direction direction) {
-        // Implement movement logic, updating player's position based on direction
-        // and invoking play on the relevant tile
-    }
-
-    private int getPositionIndex(Position position) {
-        if (!isValidPosition(position)) {
-            throw new IllegalArgumentException("Invalid position");
-        }
-        return position.getY() * width + position.getX();
     }
 }
