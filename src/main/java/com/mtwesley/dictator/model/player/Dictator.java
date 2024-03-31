@@ -1,6 +1,6 @@
 package com.mtwesley.dictator.model.player;
 
-public class Dictator extends Character {
+public class Dictator extends Role {
     public Dictator(Player player) {
         super(player);
     }

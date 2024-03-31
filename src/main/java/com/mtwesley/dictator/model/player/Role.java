@@ -1,9 +1,9 @@
 package com.mtwesley.dictator.model.player;
 
-public abstract class Character {
+public abstract class Role {
     protected Player player;
 
-    public Character(Player player) {
+    public Role(Player player) {
         this.player = player;
     }
 
