@@ -7,7 +7,6 @@ Transactions
 
 Rule
 - int maxTurns
-- int maxPlayers
 - int maxDecisions
 - int citizenDictatorRatio
 - Action dictatorDefault
@@ -15,12 +14,35 @@ Rule
 - sortTurns()
 - sortPlayers()
 
+take number of players
+
+
+- int maxPlayers (determined by Game via the Tile via the Board)
+
+
 Game
 - Rule rule
 - List<Player> players
 - List<Turn> turns
 - List<Bid> bids
 - List<Transaction> transactions
+
+
+Turn
+- List<Map<Player, Action>> events
+
+each turn is a player doing an action
+all players get a turn during a cycle, to commit an action
+
+rules list the actions available for by role (dictator, citizen, etc.)
+rules sort the turns by role (somewhat like a comparable)
+
+players and turns are given to the game
+game now has players and turns
+
+turns are played in a loop
+
+
 
 Position
 - int X
@@ -75,8 +97,6 @@ CREATE_OFFER = (offer) => {}
 ACCEPT_OFFER = (offer) => {}
 REJECT_OFFER = (offer) => {}
 
-Turn
-- List<Map<Player, Action>> events
 
 Board
 - int width
