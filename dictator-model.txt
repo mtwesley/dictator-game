@@ -1,35 +1,131 @@
 App
 
-Transactions
-- Player player
-- Turn turn
-- int amount
-
-Rule
-- int maxTurns
-- int maxDecisions
-- int citizenDictatorRatio
-- Action dictatorDefault
-- Action citizenDefault
-- sortTurns()
-- sortPlayers()
-
 take number of players
 
 
+- int citizenDictatorRatio
+- int maxDecisions
+- int maxTurns
 - int maxPlayers (determined by Game via the Tile via the Board)
 
 
-Game
-- Rule rule
-- List<Player> players
-- List<Turn> turns
-- List<Bid> bids
-- List<Transaction> transactions
+TODO: MAKE SURE THAT ALL PLAYERS/ROLES HAVE HASH() TO CHECK FOR EQUALITY -- THAT SHOULD BE THE STRING ID
 
+
+
+
+
+
+
+
+- Map<String, Action> getActions(Role, Game) - returns map of possible actions and their labels based on a role / overloaded specifically for Dictator and Citizen
+- Action getDefaultAction(Role, Game) - returns default action if none taken based on role / overloaded specifically for Dictator and Citizen
+
+
+So game would
+Turn turn = rule.nextTurn() # this would do all the processing
+
+
+
+
+- Cycle cycle
+
+Cycle - universe-wide clock or ticker mechanism that all games adhere to
+- String id
+- start (time that it started)
+- end (time it will end)
+
+- List<Turn> getTurns(Game) - return ordered list of turns based on roles
+
+
+NextTurn Logic
+1. Send notification to player that it is their turn
+2. Send list of actions they can do -- it's possible that they can commit multiple actions
+   So actions can be "multi" actions that can be grouped (actions within the sameg group can be sent together)
+3. Actions are validated when received
+4. If invalid (or in the future, if not enough time) peform default action
+5. Log action(s) to turn
+6. End turn and return turn
+7. Commit action
+
+
+Game.State (enum)
+- STARTING
+- IN_PROGRESS
+- ENDING
+- COMPLETED
+
+Game (abstract class)
+- Comparator<Role> sort
+- Turn currentTurn
+- List<Role> roles
+- List<Turn> turns
+- List<Transaction> transactions
+- Role assignRole(Player) - wraps a Player with a Role (Citizen, Dictator, etc.)
+- Turn nextTurn(Game) - primary gameplay mechanism, for example, communicate with player over message queues or web sockets to
+
+DictatorGame
+- Comparator<Role> sort
+- Turn nextTurn()
 
 Turn
-- List<Map<Player, Action>> events
+- Role role
+- List<Action> actions
+- start - time it actually started
+- end - time it atually ended
+
+Action (abstract class)
+- String action
+- boolean grouped = false
+- boolean multiple = false
+- commit(Player, Game)
+
+OfferAction
+- Offer offer
+
+AcceptOfferAction
+- action = 'ACCEPT_OFFER'
+- role = Citizen
+
+RejectOfferAction
+- action = 'REJECT_OFFER'
+- role = Citizen
+
+CreateOfferAction
+- action = 'CREATE_OFFER'
+- boolean multiple = true
+- role = Dictator
+
+Account (interface)
+- getBalance()
+
+Transactions (abstract class)
+- Account from
+- Account to
+- int amount
+- Status status
+
+Tranaction.Status (enum)
+- PENDING, ACCEPTED, REJECTED
+
+Offer (extends Transaction)
+- int amount
+- Player from
+- Player to
+
+Endowment (extends Transaction)
+- Player to
+
+
+ALLOCATE_ENDOWMENT
+MAKE_OFFERS
+
+Offer CREATE_OFFER = (offer) => {}
+Offer ACCEPT_OFFER = (offer) => {}
+Offer REJECT_OFFER = (offer) => {}
+
+
+
 
 each turn is a player doing an action
 all players get a turn during a cycle, to commit an action
@@ -81,21 +177,6 @@ Dictator extends Character
 
 Citizen extends Character
 
-Offer
-- int amount
-- Player from
-- Player to
-- Game game
-
-Action (functional interface)
-- action(Player, Game)
-
-OfferAction (functional interface)
-- action(Player, Game, Offer)
-
-CREATE_OFFER = (offer) => {}
-ACCEPT_OFFER = (offer) => {}
-REJECT_OFFER = (offer) => {}
 
 
 Board
