@@ -1,5 +1,6 @@
 package com.mtwesley.dictator.model.game.board.tile;
 
+import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.game.board.Board;
 import com.mtwesley.dictator.model.game.board.Position;
 import com.mtwesley.dictator.model.player.Player;
