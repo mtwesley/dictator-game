@@ -1,5 +1,6 @@
 package com.mtwesley.dictator.model.player;
 
+import com.mtwesley.dictator.model.game.account.Account;
 import com.mtwesley.dictator.model.game.board.Position;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Player {
+public class Player implements Account {
     private String id;
     private String name;
     private int wins;

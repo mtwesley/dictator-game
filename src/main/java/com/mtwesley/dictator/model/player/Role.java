@@ -1,6 +1,8 @@
 package com.mtwesley.dictator.model.player;
 
-public abstract class Role {
+import com.mtwesley.dictator.model.game.Game;
+
+public abstract class Role extends Player {
     protected Player player;
 
     public Role(Player player) {
