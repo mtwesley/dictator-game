@@ -1,6 +1,7 @@
 package com.mtwesley.dictator.model.game.action;
 
 import com.mtwesley.dictator.model.game.Game;
+import com.mtwesley.dictator.model.game.account.Offer;
 import com.mtwesley.dictator.model.player.Citizen;
 import com.mtwesley.dictator.model.player.Role;
 
