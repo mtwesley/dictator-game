@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.game.action;
+package com.mtwesley.dictator.model.action;
 
 import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.game.account.Offer;

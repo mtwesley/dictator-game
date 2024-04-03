@@ -1,6 +1,6 @@
 package com.mtwesley.dictator.model.game;
 
-import com.mtwesley.dictator.model.game.action.Action;
+import com.mtwesley.dictator.model.action.Action;
 import com.mtwesley.dictator.model.player.Role;
 
 import java.time.LocalDateTime;

@@ -15,6 +15,7 @@ public abstract class Game {
         ENDING,
         COMPLETED
     }
+
     protected Comparator<Role> sort;
     protected Turn currentTurn;
     protected List<Role> roles;

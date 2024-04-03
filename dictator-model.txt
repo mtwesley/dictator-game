@@ -12,8 +12,39 @@ take number of players
 TODO: MAKE SURE THAT ALL PLAYERS/ROLES HAVE HASH() TO CHECK FOR EQUALITY -- THAT SHOULD BE THE STRING ID
 
 
+COLLECTIONS / TABLES:
+
+- players [{}]
+
+- games [{
+    status: // string status
+    roleIds: [ // array of player ID ]
+    created: // timestamp
+    modified: // timestamp
+}]
+
+- turns [{
+    roleId: // string player ID
+    start: // timestamp
+    end: // timestamp
+    actions: [ {
+        action: // string action name
+
+    }]
+}]
+
+- moves [{}]
+
+- boards [{}]
+
+- transactions [{}]
 
 
+
+REPOSITORY:
+
+- player
+- game
 
 
 
