@@ -29,7 +29,7 @@ COLLECTIONS / TABLES:
     end: // timestamp
     actions: [ {
         action: // string action name
-
+        payload: {} // object
     }]
 }]
 
