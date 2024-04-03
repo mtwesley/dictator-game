@@ -6,13 +6,13 @@ import com.mtwesley.dictator.model.player.Dictator;
 import com.mtwesley.dictator.model.player.Role;
 
 public class CreateOfferAction extends OfferAction {
-    public CreateOfferAction(Offer offer) {
-        super("CREATE_OFFER", offer, false, true);
+    public CreateOfferAction(Role role, Game game, Offer offer) {
+        super("CREATE_OFFER", role, game, offer);
     }
 
     @Override
-    public void commit(Role role, Game game) {
-        if (!(role instanceof Dictator)) {
+    public void commit() {
+        if (!(getRole() instanceof Dictator)) {
             throw new IllegalStateException("Only Dictators can create offers.");
         }
     }
