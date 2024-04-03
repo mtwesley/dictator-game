@@ -1,20 +1,26 @@
 package com.mtwesley.dictator.model.game;
 
 import com.mtwesley.dictator.model.player.Citizen;
+import com.mtwesley.dictator.model.player.Dictator;
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.model.player.Role;
+
+import java.util.Comparator;
 
 public class DictatorGame extends Game {
 
     @Override
     public Role assignRole(Player player) {
-        // Logic to assign a role to a player
-        return new Citizen(player); // Or new Dictator(player) based on some condition
+        return new Citizen(player);
     }
 
     @Override
     public Turn nextTurn() {
-        // Advance the game to the next turn
-        return new Turn(); // Implementation details of creating a new turn
+        return new Turn();
+    }
+
+    @Override
+    public Comparator<Role> getRoleComparator() {
+        return (a, b) -> a.getClass() == Dictator.class ? 1 : -1;
     }
 }
