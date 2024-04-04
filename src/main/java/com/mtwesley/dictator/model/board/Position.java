@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.game.board;
+package com.mtwesley.dictator.model.board;
 
 import lombok.Value;
 

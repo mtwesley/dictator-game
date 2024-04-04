@@ -1,7 +1,6 @@
 package com.mtwesley.dictator.model.player;
 
-import com.mtwesley.dictator.model.game.account.Account;
-import com.mtwesley.dictator.model.game.board.Position;
+import com.mtwesley.dictator.model.account.Account;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
@@ -20,5 +19,4 @@ public class Player implements Account {
     private int losses;
     private int balance;
     private int score;
-
 }

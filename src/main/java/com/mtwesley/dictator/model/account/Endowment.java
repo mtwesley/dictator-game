@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.game.account;
+package com.mtwesley.dictator.model.account;
 
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;

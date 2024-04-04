@@ -1,7 +1,7 @@
 package com.mtwesley.dictator.model.player;
 
 import com.mtwesley.dictator.model.game.Game;
-import com.mtwesley.dictator.model.game.account.Offer;
+import com.mtwesley.dictator.model.account.Offer;
 
 public class Dictator extends Role {
     public Dictator(Player player) {

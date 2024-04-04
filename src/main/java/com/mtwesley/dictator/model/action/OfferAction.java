@@ -1,7 +1,7 @@
 package com.mtwesley.dictator.model.action;
 
 import com.mtwesley.dictator.model.game.Game;
-import com.mtwesley.dictator.model.game.account.Offer;
+import com.mtwesley.dictator.model.account.Offer;
 import com.mtwesley.dictator.model.player.Role;
 import lombok.Getter;
 

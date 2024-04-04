@@ -1,6 +1,6 @@
 package com.mtwesley.dictator.model.game;
 
-import com.mtwesley.dictator.model.game.account.Transaction;
+import com.mtwesley.dictator.model.account.Transaction;
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.model.player.Role;
 import lombok.AllArgsConstructor;

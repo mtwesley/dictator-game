@@ -14,11 +14,27 @@ TODO: MAKE SURE THAT ALL PLAYERS/ROLES HAVE HASH() TO CHECK FOR EQUALITY -- THAT
 
 COLLECTIONS / TABLES:
 
-- players [{}]
+- players [{
+    name: // string
+    wins: // aggregate from games
+    losses: // aggregate from games
+    balance: // aggregate from games
+    score: // aggregate from games
+    created: // timestamp
+    modified: // timestamp
+}]
 
 - games [{
     status: // string status
     roleIds: [ // array of player ID ]
+    wins: {
+        // key: playerId
+        // value: true or false for win or loss
+    }
+    scores: {
+        // key: playerId
+        // value: points
+    }
     created: // timestamp
     modified: // timestamp
 }]
@@ -29,13 +45,13 @@ COLLECTIONS / TABLES:
     end: // timestamp
     actions: [ {
         action: // string action name
-        payload: {} // object
+        payload: {} // object, could contain offer, or just player
     }]
 }]
 
-- moves [{}]
+- boards [{
 
-- boards [{}]
+}]
 
 - transactions [{}]
 

@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.game.board.tile;
+package com.mtwesley.dictator.model.board.tile;
 
 import com.mtwesley.dictator.model.player.Player;
 

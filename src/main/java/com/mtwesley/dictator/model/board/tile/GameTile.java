@@ -1,8 +1,8 @@
-package com.mtwesley.dictator.model.game.board.tile;
+package com.mtwesley.dictator.model.board.tile;
 
+import com.mtwesley.dictator.model.board.Board;
+import com.mtwesley.dictator.model.board.Position;
 import com.mtwesley.dictator.model.game.Game;
-import com.mtwesley.dictator.model.game.board.Board;
-import com.mtwesley.dictator.model.game.board.Position;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
 import lombok.Setter;

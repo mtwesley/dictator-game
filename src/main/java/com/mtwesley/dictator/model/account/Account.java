@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.game.account;
+package com.mtwesley.dictator.model.account;
 
 public interface Account {
     public static Account SYSTEM = new Account() {

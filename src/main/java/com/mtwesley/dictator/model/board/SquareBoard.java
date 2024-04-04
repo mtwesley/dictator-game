@@ -1,6 +1,6 @@
-package com.mtwesley.dictator.model.game.board;
+package com.mtwesley.dictator.model.board;
 
-import com.mtwesley.dictator.model.game.board.tile.Tile;
+import com.mtwesley.dictator.model.board.tile.Tile;
 import lombok.Getter;
 
 @Getter
