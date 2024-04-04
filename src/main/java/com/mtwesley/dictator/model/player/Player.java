@@ -8,10 +8,8 @@ import lombok.ToString;
 import lombok.NoArgsConstructor;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Player implements Account {
     private String id;
     private String name;
