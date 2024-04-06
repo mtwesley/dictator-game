@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.Id;
 import java.util.*;
+
 
 @Getter
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public abstract class Game {
     protected String type;
     protected Turn currentTurn;
     @DBRef
-    protected List<Role> roles = new ArrayList<>();
+    protected Set<Role> roles = new HashSet<>();
     @DBRef
     protected List<Turn> turns = new ArrayList<>();
     @DBRef
