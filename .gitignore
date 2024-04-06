@@ -75,3 +75,4 @@ Thumbs.db
 # Ignore application.properties files with sensitive configs
 # Uncomment the next line if you have sensitive data in local properties files
 #/src/main/resources/application.properties
+application-*.properties

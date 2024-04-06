@@ -16,7 +16,7 @@ public class DictatorGame extends Game {
 
     @Override
     public Turn nextTurn() {
-        return new Turn();
+        return new Turn() {};
     }
 
     @Override

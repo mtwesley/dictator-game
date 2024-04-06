@@ -50,10 +50,12 @@ COLLECTIONS / TABLES:
 }]
 
 - boards [{
-
+    // also includes tiles
 }]
 
-- transactions [{}]
+- transactions [{
+
+}]
 
 
 
@@ -61,7 +63,32 @@ REPOSITORY:
 
 - player
 - game
+- turn
+- board
+- transaction
 
+HOW TO BUILD:
+
+1) Player Service
+- start off with boards
+- handle creating the board and tiles
+- next move to players
+- work on actions that can move players around board
+- functionality should allow multiple players to move around boards
+
+2) Game Service
+- create games, and allocate to tiles
+- players landing on game tiles can play games
+- start with very simple game play (no turns) to test creating, exiting games, and allocating scores
+- move to more advanced gameplay, with turns
+- work on reading game state and other states/status
+
+Actions
+- change state
+
+*** state changes need to trigger messages to be sent to clients
+*** somehow clients need to be updated, mainly with the updated state, or with a message for them to poll the state
+*** kinda want to use
 
 
 

@@ -10,5 +10,4 @@ public abstract class Role extends Player {
     }
 
     public abstract void play(Game game);
-    // Other character-specific methods
 }
