@@ -4,7 +4,9 @@ import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.account.Offer;
 import com.mtwesley.dictator.model.player.Dictator;
 import com.mtwesley.dictator.model.player.Role;
+import org.springframework.data.annotation.TypeAlias;
 
+@TypeAlias("CreateOfferAction")
 public class CreateOfferAction extends OfferAction {
     public CreateOfferAction(Role role, Game game, Offer offer) {
         super("CREATE_OFFER", role, game, offer);

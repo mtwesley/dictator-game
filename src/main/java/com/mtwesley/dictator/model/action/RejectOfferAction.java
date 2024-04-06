@@ -4,7 +4,9 @@ import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.account.Offer;
 import com.mtwesley.dictator.model.player.Citizen;
 import com.mtwesley.dictator.model.player.Role;
+import org.springframework.data.annotation.TypeAlias;
 
+@TypeAlias("RejectOfferAction")
 public class RejectOfferAction extends OfferAction {
     public RejectOfferAction(Role role, Game game, Offer offer) {
         super("REJECT_OFFER", role, game, offer);

@@ -4,8 +4,10 @@ import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.account.Offer;
 import com.mtwesley.dictator.model.player.Role;
 import lombok.Getter;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
+@TypeAlias("OfferAction")
 public abstract class OfferAction extends Action {
     protected final Offer offer;
 

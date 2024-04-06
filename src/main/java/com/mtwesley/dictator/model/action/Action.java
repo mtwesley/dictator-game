@@ -3,8 +3,10 @@ package com.mtwesley.dictator.model.action;
 import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
+@TypeAlias("Action")
 public abstract class Action {
 
     protected class ActionPayload {
