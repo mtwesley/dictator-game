@@ -3,16 +3,30 @@ package com.mtwesley.dictator.model.account;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.stereotype.Repository;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document("transactions")
+@TypeAlias("Transaction")
 public abstract class Transaction {
     protected String id;
     protected String type;
-    protected int amount;
+
+    @DBRef
+    @Field("fromAccountId")
     protected Account from;
+
+    @DBRef
+    @Field("toAccountId")
     protected Account to;
+
+    protected int amount;
     protected TransactionStatus status = TransactionStatus.PENDING;
 
     public enum TransactionStatus {

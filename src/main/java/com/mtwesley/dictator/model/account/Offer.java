@@ -3,9 +3,11 @@ package com.mtwesley.dictator.model.account;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import org.springframework.data.annotation.TypeAlias;
 
 @Value
 @AllArgsConstructor
+@TypeAlias("Offer")
 public class Offer extends Transaction {
 
     public Offer(int amount, Player from, Player to) {
