@@ -6,15 +6,22 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Id;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document("players")
+@TypeAlias("Player")
 public class Player implements Account {
+    @Id
     private String id;
     private String name;
-    private int wins;
-    private int losses;
-    private int balance;
-    private int score;
+    private int wins = 0;
+    private int balance = 0;
+    private int score = 0;
+
 }
