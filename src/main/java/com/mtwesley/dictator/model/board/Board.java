@@ -2,23 +2,33 @@ package com.mtwesley.dictator.model.board;
 
 import com.mtwesley.dictator.model.board.tile.Tile;
 import com.mtwesley.dictator.model.player.Player;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-
+@Document("boards")
+@TypeAlias("Board")
 public abstract class Board {
+    @Id
+    private String id;
+    @Transient
     private Random random = new Random();
+    @DBRef
+    protected Set<Player> players;
+    protected Map<String, Position> playerPositions;
     protected Tile[] tiles;
-    protected Map<Player, Position> playerPositions;
-    protected int[] playerCounts;
+    @Transient
+    protected int[] playersPerTileCounts;
     protected int maxPlayersPerTile;
 
     public Board(int size, int maxPlayersPerTile) {
         this.tiles = new Tile[size];
         this.playerPositions = new HashMap<>();
-        this.playerCounts = new int[size];
+        this.playersPerTileCounts = new int[size];
         this.maxPlayersPerTile = maxPlayersPerTile;
         initializeTiles();
     }
@@ -38,7 +48,7 @@ public abstract class Board {
         if (isVacant) {
             for (int i = 0; i < tiles.length; i++) {
                 int index = (start + i) % tiles.length;
-                if (playerCounts[index] < maxPlayersPerTile) {
+                if (playersPerTileCounts[index] < maxPlayersPerTile) {
                     return getPositionFromIndex(index);
                 }
             }
@@ -49,7 +59,7 @@ public abstract class Board {
     }
 
     public boolean movePlayer(Player player, Direction direction) {
-        Position currentPosition = playerPositions.get(player);
+        Position currentPosition = playerPositions.get(player.getId());
         if (currentPosition == null) {
             return false;
         }
@@ -61,17 +71,17 @@ public abstract class Board {
         int currentIndex = getIndexFromPosition(currentPosition);
         int newIndex = getIndexFromPosition(newPosition);
 
-        if (playerCounts[newIndex] < maxPlayersPerTile) {
-            playerCounts[currentIndex]--;
-            playerCounts[newIndex]++;
-            playerPositions.put(player, newPosition);
+        if (playersPerTileCounts[newIndex] < maxPlayersPerTile) {
+            playersPerTileCounts[currentIndex]--;
+            playersPerTileCounts[newIndex]++;
+            playerPositions.put(player.getId(), newPosition);
             return true;
         }
         return false;
     }
 
     public boolean isFull() {
-        for (int count : playerCounts) {
+        for (int count : playersPerTileCounts) {
             if (count < maxPlayersPerTile) {
                 return false;
             }
@@ -83,9 +93,9 @@ public abstract class Board {
         Position position = getRandomPosition();
         if (position != null) {
             int index = getIndexFromPosition(position);
-            if (playerCounts[index] < maxPlayersPerTile) {
-                playerCounts[index]++;
-                playerPositions.put(player, position);
+            if (playersPerTileCounts[index] < maxPlayersPerTile) {
+                playersPerTileCounts[index]++;
+                playerPositions.put(player.getId(), position);
                 return true;
             }
         }
@@ -93,10 +103,10 @@ public abstract class Board {
     }
 
     public boolean leave(Player player) {
-        Position position = playerPositions.remove(player);
+        Position position = playerPositions.remove(player.getId());
         if (position != null) {
             int index = getIndexFromPosition(position);
-            playerCounts[index]--;
+            playersPerTileCounts[index]--;
             return true;
         }
         return false;

@@ -6,10 +6,15 @@ import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
 @Setter
+@TypeAlias("GameTile")
 public class GameTile extends Tile {
+
+    @DBRef
     private Game game;
 
     public GameTile(Board board, Position position, Game game) {

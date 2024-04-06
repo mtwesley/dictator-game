@@ -2,8 +2,10 @@ package com.mtwesley.dictator.model.board;
 
 import com.mtwesley.dictator.model.board.tile.Tile;
 import lombok.Getter;
+import org.springframework.data.annotation.TypeAlias;
 
 @Getter
+@TypeAlias("SquareBoard")
 public class SquareBoard extends Board {
     private final int width;
     private final int height;
