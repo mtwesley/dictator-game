@@ -20,6 +20,10 @@ public class GameTile extends Tile {
     @Override
     public void play(Player player) {
         // Implement game-specific interactions here
-        // game.start(player);
+        // add player to game
+        // game.addPlayer(player)
+        // check if game is full
+        // start the game if full
+        // game.start();
     }
 }
