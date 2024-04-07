@@ -40,7 +40,6 @@ public abstract class Board {
         this.tiles = new Tile[size];
         this.playersPerTileCounts = new int[size];
         this.maxPlayersPerTile = maxPlayersPerTile;
-        initializeTiles();
     }
 
     protected abstract void initializeTiles();

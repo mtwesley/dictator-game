@@ -5,11 +5,13 @@ import com.mtwesley.dictator.model.board.Position;
 import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
+@NoArgsConstructor
 @TypeAlias("GameTile")
 public class GameTile extends Tile {
 

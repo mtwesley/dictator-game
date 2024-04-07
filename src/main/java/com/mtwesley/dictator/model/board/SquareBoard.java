@@ -20,6 +20,7 @@ public class SquareBoard extends Board {
         super(width * height, maxPlayersPerTile);
         this.width = width;
         this.height = height;
+        initializeTiles();
     }
 
     @Override

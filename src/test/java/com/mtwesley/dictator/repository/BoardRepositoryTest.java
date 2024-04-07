@@ -4,12 +4,12 @@ import com.mtwesley.dictator.model.board.Board;
 import com.mtwesley.dictator.model.board.SquareBoard;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest
+@SpringBootTest
 public class BoardRepositoryTest {
 
     @Autowired
@@ -25,7 +25,6 @@ public class BoardRepositoryTest {
         Board foundBoard = mongoTemplate.findById(board.getId(), Board.class);
         assertThat(foundBoard).isNotNull();
         assertThat(foundBoard.getTiles()).hasSize(100);
-
 
     }
 }
