@@ -10,6 +10,7 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.*;
 
@@ -28,18 +29,22 @@ public abstract class Game {
         COMPLETED
     }
 
+    public static class ScoreMap extends HashMap<String, Integer> {}
+    public static class WinnerMap extends HashMap<String, Boolean> {}
+
     @Id
     protected String id;
     protected String type;
     protected Turn currentTurn;
     @DBRef
+    @Field("players")
     protected Set<Role> roles = new HashSet<>();
     @DBRef
     protected List<Turn> turns = new ArrayList<>();
     @DBRef
     protected List<Transaction> transactions = new ArrayList<>();
-    protected Map<String, Integer> scores = new HashMap<>();
-    protected Map<String, Boolean> winners = new HashMap<>();
+    protected ScoreMap scores = new ScoreMap();
+    protected WinnerMap winners = new WinnerMap();
     protected GameState state = GameState.STARTING;
 
     public abstract Comparator<Role> getRoleComparator();
