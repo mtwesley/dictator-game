@@ -3,10 +3,9 @@ package com.mtwesley.dictator.model.player;
 import com.mtwesley.dictator.model.game.Game;
 
 public abstract class Role extends Player {
-    protected Player player;
 
     public Role(Player player) {
-        this.player = player;
+        super(player.getId(), player.getName(), player.getWins(), player.getBalance(), player.getScore());
     }
 
     public abstract void play(Game game);
