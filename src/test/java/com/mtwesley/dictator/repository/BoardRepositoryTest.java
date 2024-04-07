@@ -2,6 +2,7 @@ package com.mtwesley.dictator.repository;
 
 import com.mtwesley.dictator.model.board.Board;
 import com.mtwesley.dictator.model.board.SquareBoard;
+import com.mtwesley.dictator.model.player.Player;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,16 +14,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BoardRepositoryTest {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private BoardRepository boardRepository;
 
     @Test
     public void testCreateAndFindBoard() {
         // Create and save a board
         Board board = new SquareBoard(10, 10, 4);
-        mongoTemplate.save(board);
+        boardRepository.save(board);
 
         // Retrieve the board
-        Board foundBoard = mongoTemplate.findById(board.getId(), Board.class);
+        Board foundBoard = boardRepository.findById(board.getId()).orElse(null);
         assertThat(foundBoard).isNotNull();
         assertThat(foundBoard.getTiles()).hasSize(100);
 
