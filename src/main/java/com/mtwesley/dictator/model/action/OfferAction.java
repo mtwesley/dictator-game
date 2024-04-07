@@ -5,10 +5,13 @@ import com.mtwesley.dictator.model.account.Offer;
 import com.mtwesley.dictator.model.player.Role;
 import lombok.Getter;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
 @TypeAlias("OfferAction")
 public abstract class OfferAction extends Action {
+
+    @DBRef
     protected final Offer offer;
 
     public OfferAction(String action, Role role, Game game, Offer offer, boolean grouped, boolean multiple) {
