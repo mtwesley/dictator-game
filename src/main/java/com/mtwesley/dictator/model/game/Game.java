@@ -29,9 +29,6 @@ public abstract class Game {
         COMPLETED
     }
 
-    public static class ScoreMap extends HashMap<String, Integer> {}
-    public static class WinnerMap extends HashMap<String, Boolean> {}
-
     @Id
     protected String id;
     protected String type;
@@ -43,8 +40,8 @@ public abstract class Game {
     protected List<Turn> turns = new ArrayList<>();
     @DBRef
     protected List<Transaction> transactions = new ArrayList<>();
-    protected ScoreMap scores = new ScoreMap();
-    protected WinnerMap winners = new WinnerMap();
+    @DBRef
+    protected List<Stats> stats = new ArrayList<>();
     protected GameState state = GameState.STARTING;
 
     public abstract Comparator<Role> getRoleComparator();
@@ -56,16 +53,5 @@ public abstract class Game {
     public void addPlayer(Player player) {}
 
     public void removePlayer(Player player) {}
-
-    public boolean isWinner(Player player) {
-        if (state != GameState.COMPLETED || scores == null || scores.isEmpty()) {
-            return false;
-        }
-
-        int score = calculateScore(player);
-        int maxScore = Collections.max(scores.values());
-
-        return score > 0 && score == maxScore;
-    }
 
 }

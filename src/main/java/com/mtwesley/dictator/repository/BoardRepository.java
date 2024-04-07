@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface BoardRepository extends MongoRepository<Board, String> {
+
     @Query("{ 'type': ?0 }")
     List<Board> findByType(String type);
+
 }
