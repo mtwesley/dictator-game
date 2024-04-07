@@ -1,5 +1,6 @@
 package com.mtwesley.dictator.model.account;
 
+import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -56,5 +57,24 @@ public abstract class Transaction {
         this.from = from;
         this.to = to;
         this.status = TransactionStatus.valueOf(status);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Transaction)) return false;
+        Transaction other = (Transaction) o;
+        return id != null && !id.isEmpty() && id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return (id != null && !id.isEmpty()) ? id.hashCode() : System.identityHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return id;
     }
 }

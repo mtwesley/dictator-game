@@ -2,6 +2,9 @@ package com.mtwesley.dictator.model.board;
 
 import com.mtwesley.dictator.model.board.tile.Tile;
 import com.mtwesley.dictator.model.player.Player;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.annotation.TypeAlias;
@@ -10,6 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Document("boards")
 @TypeAlias("Board")
 public abstract class Board {
@@ -114,4 +120,22 @@ public abstract class Board {
         return false;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Board)) return false;
+        Board other = (Board) o;
+        return id != null && !id.isEmpty() && id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return (id != null && !id.isEmpty()) ? id.hashCode() : System.identityHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }

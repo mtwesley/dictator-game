@@ -28,4 +28,22 @@ public class Player implements Account {
     @Field("cachedScore")
     private int score = 0;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Player)) return false;
+        Player other = (Player) o;
+        return id != null && !id.isEmpty() && id.equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return (id != null && !id.isEmpty()) ? id.hashCode() : System.identityHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return id;
+    }
 }
