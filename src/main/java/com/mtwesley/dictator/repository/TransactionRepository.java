@@ -1,9 +1,9 @@
 package com.mtwesley.dictator.repository;
 
-import com.mtwesley.dictator.model.account.Endowment;
-import com.mtwesley.dictator.model.account.Offer;
-import com.mtwesley.dictator.model.account.Tax;
-import com.mtwesley.dictator.model.account.Transaction;
+import com.mtwesley.dictator.model.transaction.Endowment;
+import com.mtwesley.dictator.model.transaction.Offer;
+import com.mtwesley.dictator.model.transaction.Tax;
+import com.mtwesley.dictator.model.transaction.Transaction;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -14,73 +14,73 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
 
-    @Query("{ '$or': [ {'fromAccountId.$id': ?0 }, {'toAccountId.$id': ?1 } ] }")
-    List<Transaction> findByFromOrToAccountId(String fromAccountId, String toAccountId);
+    @Query("{ '$or': [ {'fromPlayerId.$id': ?0 }, {'toPlayerId.$id': ?1 } ] }")
+    List<Transaction> findByFromOrToPlayerId(String fromPlayerId, String toPlayerId);
 
-    @Query("{ '$or': [ {'fromAccountId.$id': ?0 }, {'toAccountId.$id': ?1 } ], '_class': 'Offer' }")
-    List<Offer> findOffersByFromOrToAccountId(String fromAccountId, String toAccountId);
+    @Query("{ '$or': [ {'fromPlayerId.$id': ?0 }, {'toPlayerId.$id': ?1 } ], '_class': 'Offer' }")
+    List<Offer> findOffersByFromOrToPlayerId(String fromPlayerId, String toPlayerId);
 
-    @Query("{ 'fromAccountId.$id': ?0 }")
-    List<Transaction> findByFromAccountId(String accountId);
+    @Query("{ 'fromPlayerId.$id': ?0 }")
+    List<Transaction> findByFromPlayerId(String playerId);
 
-    @Query("{ 'toAccountId.$id': ?0 }")
-    List<Transaction> findByToAccountId(String accountId);
+    @Query("{ 'toPlayerId.$id': ?0 }")
+    List<Transaction> findByToPlayerId(String playerId);
 
     @Query("{ 'from.id': ?0, '_class': 'Offer' }")
-    List<Offer> findOffersByFromAccountId(String accountId);
+    List<Offer> findOffersByFromPlayerId(String playerId);
 
     @Query("{ 'to.id': ?0, '_class': 'Offer' }")
-    List<Offer> findOffersByToAccountId(String accountId);
+    List<Offer> findOffersByToPlayerId(String playerId);
 
     @Query("{ 'to.id': ?0, '_class': 'Endowment' }")
-    List<Endowment> findEndowmentsByToAccountId(String accountId);
+    List<Endowment> findEndowmentsByToPlayerId(String playerId);
 
     @Query("{ 'from.id': ?0, '_class': 'Tax' }")
-    List<Tax> findTaxesByFromAccountId(String accountId);
+    List<Tax> findTaxesByFromPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'fromAccountId.$id': ?0 } }",
+            "{ '$match': { 'fromPlayerId.$id': ?0 } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getAmountByFromAccountId(String accountId);
+    int getAmountByFromPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'toAccountId.$id': ?0 } }",
+            "{ '$match': { 'toPlayerId.$id': ?0 } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getAmountByToAccountId(String accountId);
+    int getAmountByToPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'fromAccountId.$id': ?0, '_class': 'Offer' } }",
+            "{ '$match': { 'fromPlayerId.$id': ?0, '_class': 'Offer' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getOffersAmountByFromAccountId(String accountId);
+    int getOffersAmountByFromPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'toAccountId.$id': ?0, '_class': 'Offer' } }",
+            "{ '$match': { 'toPlayerId.$id': ?0, '_class': 'Offer' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getOffersAmountByToAccountId(String accountId);
+    int getOffersAmountByToPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'toAccountId.$id': ?0, '_class': 'Endowment' } }",
+            "{ '$match': { 'toPlayerId.$id': ?0, '_class': 'Endowment' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getEndowmentsAmountByToAccountId(String accountId);
+    int getEndowmentsAmountByToPlayerId(String playerId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'fromAccountId.$id': ?0, '_class': 'Tax' } }",
+            "{ '$match': { 'fromPlayerId.$id': ?0, '_class': 'Tax' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getTaxesAmountByFromAccountId(String accountId);
+    int getTaxesAmountByFromPlayerId(String playerId);
 
     List<Transaction> findByType(String type);
 
-    default List<Transaction> findByAccountId(String accountId) {
-        return findByFromOrToAccountId(accountId, accountId);
+    default List<Transaction> findByPlayerId(String playerId) {
+        return findByFromOrToPlayerId(playerId, playerId);
     }
 
-    default int getBalanceByAccountId(String accountId) {
-        return getAmountByToAccountId(accountId) - getAmountByFromAccountId(accountId);
+    default int getBalanceByPlayerId(String playerId) {
+        return getAmountByToPlayerId(playerId) - getAmountByFromPlayerId(playerId);
     }
 }

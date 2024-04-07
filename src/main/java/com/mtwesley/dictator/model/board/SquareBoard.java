@@ -1,14 +1,20 @@
 package com.mtwesley.dictator.model.board;
 
 import com.mtwesley.dictator.model.board.tile.Tile;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @TypeAlias("SquareBoard")
 public class SquareBoard extends Board {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
 
     public SquareBoard(int width, int height, int maxPlayersPerTile) {
         super(width * height, maxPlayersPerTile);

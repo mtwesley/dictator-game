@@ -2,6 +2,7 @@ package com.mtwesley.dictator.model.board.tile;
 
 import com.mtwesley.dictator.model.board.Board;
 import com.mtwesley.dictator.model.board.Position;
+import com.mtwesley.dictator.model.player.Playable;
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
 import org.springframework.data.annotation.Transient;

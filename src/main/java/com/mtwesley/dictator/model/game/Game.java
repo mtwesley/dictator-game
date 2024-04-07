@@ -1,11 +1,12 @@
 package com.mtwesley.dictator.model.game;
 
-import com.mtwesley.dictator.model.account.Transaction;
+import com.mtwesley.dictator.model.transaction.Transaction;
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.model.player.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +17,7 @@ import java.util.*;
 
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("games")

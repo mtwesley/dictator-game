@@ -1,7 +1,7 @@
 package com.mtwesley.dictator.model.action;
 
 import com.mtwesley.dictator.model.game.Game;
-import com.mtwesley.dictator.model.account.Offer;
+import com.mtwesley.dictator.model.transaction.Offer;
 import com.mtwesley.dictator.model.player.Citizen;
 import com.mtwesley.dictator.model.player.Role;
 import org.springframework.data.annotation.TypeAlias;

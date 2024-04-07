@@ -10,7 +10,6 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Getter
-@Setter
 @TypeAlias("GameTile")
 public class GameTile extends Tile {
 

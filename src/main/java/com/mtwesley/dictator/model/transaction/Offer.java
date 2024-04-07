@@ -1,12 +1,10 @@
-package com.mtwesley.dictator.model.account;
+package com.mtwesley.dictator.model.transaction;
 
 import com.mtwesley.dictator.model.player.Player;
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import lombok.Getter;
 import org.springframework.data.annotation.TypeAlias;
 
-@Value
-@AllArgsConstructor
+
 @TypeAlias("Offer")
 public class Offer extends Transaction {
 
@@ -15,11 +13,11 @@ public class Offer extends Transaction {
     }
 
     public Player getFromPlayer() {
-        return (Player) from;
+        return (Player) fromPlayer;
     }
 
     public Player getToPlayer() {
-        return (Player) to;
+        return (Player) toPlayer;
     }
 
 }

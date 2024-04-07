@@ -1,4 +1,4 @@
-package com.mtwesley.dictator.model.account;
+package com.mtwesley.dictator.model.transaction;
 
 public interface Account {
     public static Account SYSTEM = new Account() {

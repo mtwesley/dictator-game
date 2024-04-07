@@ -1,16 +1,17 @@
-package com.mtwesley.dictator.model.account;
+package com.mtwesley.dictator.model.transaction;
 
 import com.mtwesley.dictator.model.player.Player;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.stereotype.Repository;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("transactions")
@@ -20,12 +21,12 @@ public abstract class Transaction {
     protected String type;
 
     @DBRef
-    @Field("fromAccountId")
-    protected Account from;
+    @Field("fromPlayerId")
+    protected Player fromPlayer;
 
     @DBRef
-    @Field("toAccountId")
-    protected Account to;
+    @Field("toPlayerId")
+    protected Player toPlayer;
 
     protected int amount;
     protected TransactionStatus status = TransactionStatus.PENDING;
@@ -36,26 +37,26 @@ public abstract class Transaction {
         REJECTED
     }
 
-    public Transaction(String type, int amount, Account from, Account to) {
+    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer) {
         this.type = type;
         this.amount = amount;
-        this.from = from;
-        this.to = to;
+        this.fromPlayer = fromPlayer;
+        this.toPlayer = toPlayer;
     }
 
-    public Transaction(String type, int amount, Account from, Account to, TransactionStatus status) {
+    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer, TransactionStatus status) {
         this.type = type;
         this.amount = amount;
-        this.from = from;
-        this.to = to;
+        this.fromPlayer = fromPlayer;
+        this.toPlayer = toPlayer;
         this.status = status;
     }
 
-    public Transaction(String type, int amount, Account from, Account to, String status) {
+    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer, String status) {
         this.type = type;
         this.amount = amount;
-        this.from = from;
-        this.to = to;
+        this.fromPlayer = fromPlayer;
+        this.toPlayer = toPlayer;
         this.status = TransactionStatus.valueOf(status);
     }
 
