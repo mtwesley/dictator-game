@@ -25,8 +25,8 @@ public class SquareBoard extends Board {
 
     @Override
     protected void initializeTiles() {
-        for (int i = 0; i < tiles.length; i++) {
-            tiles[i] = new Tile(this, new Position(i % width, i / width));
+        for (int i = 0; i < size; i++) {
+            tiles.add(new Tile(this, new Position(i % width, i / width)));
         }
     }
 
@@ -37,7 +37,7 @@ public class SquareBoard extends Board {
 
     @Override
     public Position getPositionFromIndex(int index) {
-        if (index < 0 || index >= tiles.length) {
+        if (index < 0 || index >= size) {
             throw new IllegalArgumentException("Index out of board bounds");
         }
         int x = index % width;

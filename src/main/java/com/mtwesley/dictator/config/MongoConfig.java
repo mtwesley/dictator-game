@@ -24,6 +24,28 @@ public class MongoConfig {
         return new MongoCustomConversions(converters);
     }
 
+//    @WritingConverter
+//    public static class TileToDocumentConverter implements Converter<Tile, Document> {
+//        @Override
+//        public Document convert(Tile tile) {
+//            Document doc = new Document();
+//            doc.append("position", Arrays.asList(tile.getPosition().getX(), tile.getPosition().getY()));
+//            // Include other Tile fields as needed
+//            return doc;
+//        }
+//    }
+
+//    @ReadingConverter
+//    public static class DocumentToTileConverter implements Converter<Document, Tile> {
+//        @Override
+//        public Tile convert(Document doc) {
+//            List<Integer> positionList = doc.getList("position", Integer.class);
+//            Position position = new Position(positionList.get(0), positionList.get(1));
+//            // Construct and return a new Tile object using the retrieved position and other properties
+//            return new Tile(null, position); // Assuming 'null' for Board, replace with actual value as needed
+//        }
+//    }
+
     @WritingConverter
     static class PositionToListConverter implements Converter<Position, List<Integer>> {
         @Override

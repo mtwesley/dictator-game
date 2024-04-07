@@ -22,22 +22,27 @@ import java.util.*;
 @TypeAlias("Board")
 public abstract class Board {
 
+    // TODO: Still a problem with getting Tiles to show up with the correct _class type (GameTile, for example)
+    // When stored into MongoDB it is just stored as an object
+
     public static class PositionMap extends HashMap<String, Position> {}
     @Id
     protected String id;
     protected String type;
+    protected int size;
     @Transient
     protected Random random = new Random();
     @DBRef
     protected Set<Player> players = new HashSet<>();
     protected PositionMap playerPositions = new PositionMap();
-    protected Tile[] tiles;
+    protected List<Tile> tiles;
     @Transient
     protected int[] playersPerTileCounts;
     protected int maxPlayersPerTile;
 
     public Board(int size, int maxPlayersPerTile) {
-        this.tiles = new Tile[size];
+        this.size = size;
+        this.tiles = new ArrayList<>(size);
         this.playersPerTileCounts = new int[size];
         this.maxPlayersPerTile = maxPlayersPerTile;
     }
@@ -53,10 +58,10 @@ public abstract class Board {
     }
 
     protected Position getRandomPosition(boolean isVacant) {
-        int start = random.nextInt(tiles.length);
+        int start = random.nextInt(size);
         if (isVacant) {
-            for (int i = 0; i < tiles.length; i++) {
-                int index = (start + i) % tiles.length;
+            for (int i = 0; i < size; i++) {
+                int index = (start + i) % size;
                 if (playersPerTileCounts[index] < maxPlayersPerTile) {
                     return getPositionFromIndex(index);
                 }

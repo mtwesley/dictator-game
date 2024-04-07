@@ -11,7 +11,6 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.*;
 
@@ -36,8 +35,7 @@ public abstract class Game {
     protected String type;
     protected Turn currentTurn;
     @DBRef
-    @Field("players")
-    protected Set<Role> roles = new HashSet<>();
+    protected Set<Player> players = new HashSet<>();
     @DBRef
     protected List<Turn> turns = new ArrayList<>();
     @DBRef
@@ -49,13 +47,26 @@ public abstract class Game {
     public abstract Comparator<Role> getRoleComparator();
     public abstract Turn nextTurn();
 
-    public abstract Role assignRole(Player player); // also first check if player is already in game, and assign the correct role
+    public abstract Role assignRole(Player player);
     public abstract int calculateScore(Player player);
 
-    public void addPlayer(Player player) {}
+    public boolean addPlayer(Player player) {
+        if (players.stream().anyMatch(p -> p.equals(player))) {
+            return false;
+        }
 
-    public void removePlayer(Player player) {}
+        Role newRole = assignRole(player);
+        if (newRole != null) {
+            players.add(newRole);
+            return true;
+        }
 
+        return false;
+    }
+
+    public boolean removePlayer(Player player) {
+        return players.removeIf(p -> p.equals(player));
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

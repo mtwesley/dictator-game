@@ -2,9 +2,11 @@ package com.mtwesley.dictator.model.player;
 
 import com.mtwesley.dictator.model.game.Game;
 import com.mtwesley.dictator.model.transaction.Offer;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.TypeAlias;
 
-@TypeAlias("Player")
+@NoArgsConstructor
+@TypeAlias("Dictator")
 public class Dictator extends Role {
     public Dictator(Player player) {
         super(player);

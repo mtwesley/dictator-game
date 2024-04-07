@@ -17,8 +17,12 @@ import org.springframework.data.annotation.Id;
 @TypeAlias("Player")
 public class Player {
     @Id
-    private String id;
-    private String name;
+    protected String id;
+    protected String name;
+
+    public Player(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object o) {

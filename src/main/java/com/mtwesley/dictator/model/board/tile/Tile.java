@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @NoArgsConstructor
-@Document("tiles")
+@Document
 @TypeAlias("Tile")
 public class Tile implements Playable {
 
