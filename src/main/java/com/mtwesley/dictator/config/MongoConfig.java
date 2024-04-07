@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 @Configuration
 public class MongoConfig {
 
@@ -17,9 +18,10 @@ public class MongoConfig {
     public MongoCustomConversions mongoCustomConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();
 
-        converters.add((Converter<Position, List<Integer>>) position -> {
-            return Arrays.asList(position.getX(), position.getY());
-        });
+        // Convert from Position to List<Integer> and back
+        converters.add((Converter<Position, List<Integer>>) position ->
+                Arrays.asList(position.getX(), position.getY())
+        );
 
         converters.add((Converter<List<Integer>, Position>) list -> {
             if (list.size() != 2) {
@@ -30,4 +32,5 @@ public class MongoConfig {
 
         return new MongoCustomConversions(converters);
     }
+
 }
