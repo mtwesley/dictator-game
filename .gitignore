@@ -70,9 +70,10 @@ Thumbs.db
 /.env.local
 /.env.development.local
 /.env.test.local
-/.env.production.local
+/.env.productiosn.local
 
 # Ignore application.properties files with sensitive configs
 # Uncomment the next line if you have sensitive data in local properties files
 #/src/main/resources/application.properties
+application.properties
 application-*.properties

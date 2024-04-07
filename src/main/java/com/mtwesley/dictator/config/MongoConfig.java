@@ -18,19 +18,29 @@ public class MongoConfig {
     public MongoCustomConversions mongoCustomConversions() {
         List<Converter<?, ?>> converters = new ArrayList<>();
 
-        // Convert from Position to List<Integer> and back
-        converters.add((Converter<Position, List<Integer>>) position ->
-                Arrays.asList(position.getX(), position.getY())
-        );
-
-        converters.add((Converter<List<Integer>, Position>) list -> {
-            if (list.size() != 2) {
-                throw new IllegalArgumentException("Array must have two elements");
+        // Convert from Position to List<Integer> and back using anonymous inner classes
+        Converter<Position, List<Integer>> positionToListConverter = new Converter<Position, List<Integer>>() {
+            @Override
+            public List<Integer> convert(Position source) {
+                return Arrays.asList(source.getX(), source.getY());
             }
-            return new Position(list.get(0), list.get(1));
-        });
+        };
+
+        Converter<List<Integer>, Position> listToPositionConverter = new Converter<List<Integer>, Position>() {
+            @Override
+            public Position convert(List<Integer> source) {
+                if (source.size() != 2) {
+                    throw new IllegalArgumentException("Array must have two elements");
+                }
+                return new Position(source.get(0), source.get(1));
+            }
+        };
+
+        converters.add(positionToListConverter);
+        converters.add(listToPositionConverter);
 
         return new MongoCustomConversions(converters);
     }
+
 
 }
