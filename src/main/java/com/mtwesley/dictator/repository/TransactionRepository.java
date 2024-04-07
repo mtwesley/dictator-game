@@ -14,73 +14,73 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends MongoRepository<Transaction, String> {
 
-    @Query("{ '$or': [ {'from.$id': ?0 }, {'to.$id': ?1 } ] }")
-    List<Transaction> findFromOrToAccountId(String fromAccountId, String toAccountId);
+    @Query("{ '$or': [ {'fromAccountId.$id': ?0 }, {'toAccountId.$id': ?1 } ] }")
+    List<Transaction> findByFromOrToAccountId(String fromAccountId, String toAccountId);
 
-    @Query("{ '$or': [ {'from.$id': ?0 }, {'to.$id': ?1 } ], '_class': 'Offer' }")
-    List<Offer> findOffersFromOrToAccountId(String fromAccountId, String toAccountId);
+    @Query("{ '$or': [ {'fromAccountId.$id': ?0 }, {'toAccountId.$id': ?1 } ], '_class': 'Offer' }")
+    List<Offer> findOffersByFromOrToAccountId(String fromAccountId, String toAccountId);
 
-    @Query("{ 'from.$id': ?0 }")
-    List<Transaction> findFromAccountId(String accountId);
+    @Query("{ 'fromAccountId.$id': ?0 }")
+    List<Transaction> findByFromAccountId(String accountId);
 
-    @Query("{ 'to.$id': ?0 }")
-    List<Transaction> findToAccountId(String accountId);
+    @Query("{ 'toAccountId.$id': ?0 }")
+    List<Transaction> findByToAccountId(String accountId);
 
     @Query("{ 'from.id': ?0, '_class': 'Offer' }")
-    List<Offer> findOffersFromAccountId(String accountId);
+    List<Offer> findOffersByFromAccountId(String accountId);
 
     @Query("{ 'to.id': ?0, '_class': 'Offer' }")
-    List<Offer> findOffersToAccountId(String accountId);
+    List<Offer> findOffersByToAccountId(String accountId);
 
     @Query("{ 'to.id': ?0, '_class': 'Endowment' }")
-    List<Endowment> findEndowmentsToAccountId(String accountId);
+    List<Endowment> findEndowmentsByToAccountId(String accountId);
 
     @Query("{ 'from.id': ?0, '_class': 'Tax' }")
-    List<Tax> findTaxesFromAccountId(String accountId);
+    List<Tax> findTaxesByFromAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'from.$id': ?0 } }",
+            "{ '$match': { 'fromAccountId.$id': ?0 } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getAmountFromAccountId(String accountId);
+    int getAmountByFromAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'to.$id': ?0 } }",
+            "{ '$match': { 'toAccountId.$id': ?0 } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getAmountToAccountId(String accountId);
+    int getAmountByToAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'from.$id': ?0, '_class': 'Offer' } }",
+            "{ '$match': { 'fromAccountId.$id': ?0, '_class': 'Offer' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getOffersAmountFromAccountId(String accountId);
+    int getOffersAmountByFromAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'to.$id': ?0, '_class': 'Offer' } }",
+            "{ '$match': { 'toAccountId.$id': ?0, '_class': 'Offer' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getOffersAmountToAccountId(String accountId);
+    int getOffersAmountByToAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'to.$id': ?0, '_class': 'Endowment' } }",
+            "{ '$match': { 'toAccountId.$id': ?0, '_class': 'Endowment' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getEndowmentsAmountToAccountId(String accountId);
+    int getEndowmentsAmountByToAccountId(String accountId);
 
     @Aggregation(pipeline = {
-            "{ '$match': { 'from.$id': ?0, '_class': 'Tax' } }",
+            "{ '$match': { 'fromAccountId.$id': ?0, '_class': 'Tax' } }",
             "{ '$group': { '_id': null, 'total': { '$sum': '$amount' } } }"
     })
-    int getTaxesAmountFromAccountId(String accountId);
+    int getTaxesAmountByFromAccountId(String accountId);
 
     List<Transaction> findByType(String type);
 
     default List<Transaction> findByAccountId(String accountId) {
-        return findFromOrToAccountId(accountId, accountId);
+        return findByFromOrToAccountId(accountId, accountId);
     }
 
     default int getBalanceByAccountId(String accountId) {
-        return getAmountToAccountId(accountId) - getAmountFromAccountId(accountId);
+        return getAmountByToAccountId(accountId) - getAmountByFromAccountId(accountId);
     }
 }
