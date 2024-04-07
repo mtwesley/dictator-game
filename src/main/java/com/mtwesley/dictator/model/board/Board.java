@@ -13,13 +13,16 @@ import java.util.*;
 @Document("boards")
 @TypeAlias("Board")
 public abstract class Board {
+
+    public static class PositionMap extends HashMap<String, Position> {}
     @Id
-    private String id;
+    protected String id;
+    protected String type;
     @Transient
-    private Random random = new Random();
+    protected Random random = new Random();
     @DBRef
-    protected Set<Player> players;
-    protected Map<String, Position> playerPositions;
+    protected Set<Player> players = new HashSet<>();
+    protected PositionMap playerPositions = new PositionMap();
     protected Tile[] tiles;
     @Transient
     protected int[] playersPerTileCounts;
@@ -27,7 +30,6 @@ public abstract class Board {
 
     public Board(int size, int maxPlayersPerTile) {
         this.tiles = new Tile[size];
-        this.playerPositions = new HashMap<>();
         this.playersPerTileCounts = new int[size];
         this.maxPlayersPerTile = maxPlayersPerTile;
         initializeTiles();

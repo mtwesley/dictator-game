@@ -62,4 +62,8 @@ public class SquareBoard extends Board {
         }
         return null;
     }
+
+    {
+        type = "SQUARE";
+    }
 }
