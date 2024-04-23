@@ -22,7 +22,7 @@ public class Game {
     private String id;
     private GameType type;
     private GameStatus status;
-    private List<GameStats> roles;
+    private List<GameStats> stats;
 
     public enum GameType {
         DICTATOR

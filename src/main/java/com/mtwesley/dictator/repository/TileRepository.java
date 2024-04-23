@@ -20,7 +20,13 @@ public interface TileRepository extends MongoRepository<Tile, String> {
     @Query("{ 'playerIds': ?0 }")
     List<Tile> findByPlayerId(String playerId);
 
-    @Query("{ 'gameIds': { $in: ?0 } }")
+    @Query("{ 'playerIds': { $in: ?0 } }")
+    List<Tile> findByPlayerIds(List<String> playerId);
+
+    @Query("{ 'gameIds': ?0 }")
     List<Tile> findByGameId(String gameId);
+
+    @Query("{ 'gameIds': { $in: ?0 } }")
+    List<Tile> findByGameIds(List<String> gameIds);
 
 }

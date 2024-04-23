@@ -16,16 +16,16 @@ public interface GameRepository extends MongoRepository<Game, String> {
 
     List<Game> findByType(String type);
 
-    @Query("{ 'roles': { $elemMatch: { 'playerId': ?0, 'role': ?1 } } }")
+    @Query("{ 'stats': { $elemMatch: { 'playerId': ?0, 'role': ?1 } } }")
     List<Game> findByPlayerIdAndRole(String playerId, Game.GameStats role);
 
-    @Query("{ 'roles': { $elemMatch: { 'playerId': ?0 } } }")
+    @Query("{ 'stats': { $elemMatch: { 'playerId': ?0 } } }")
     List<Game> findByPlayerId(String playerId);
 
-    @Query("{ 'roles': { $elemMatch: { 'playerId': { $in: ?0 } } } }")
+    @Query("{ 'stats': { $elemMatch: { 'playerId': { $in: ?0 } } } }")
     List<Game> findByPlayerIds(Collection<String> playerIds);
 
-    @Query("{ 'roles': { $elemMatch: { 'role': ?0 } } }")
+    @Query("{ 'stats': { $elemMatch: { 'role': ?0 } } }")
     List<Game> findByRole(Game.GameStats role);
 
 }

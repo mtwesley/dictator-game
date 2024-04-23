@@ -49,7 +49,7 @@ public class GameRepositoryTest {
         game1.setId("game1");
         game1.setType(Game.GameType.DICTATOR);
         game1.setStatus(Game.GameStatus.IN_PROGRESS);
-        game1.setRoles(Arrays.asList(
+        game1.setStats(Arrays.asList(
                 new Game.GameStats(player1.getId(), Game.GameRole.DICTATOR),
                 new Game.GameStats(player2.getId(), Game.GameRole.CITIZEN)
         ));
@@ -58,7 +58,7 @@ public class GameRepositoryTest {
         game2.setId("game2");
         game2.setType(Game.GameType.DICTATOR);
         game2.setStatus(Game.GameStatus.COMPLETED);
-        game2.setRoles(Arrays.asList(
+        game2.setStats(Arrays.asList(
                 new Game.GameStats(player3.getId(), Game.GameRole.DICTATOR),
                 new Game.GameStats(player4.getId(), Game.GameRole.CITIZEN)
         ));
@@ -84,6 +84,6 @@ public class GameRepositoryTest {
     public void findByPlayerId_WhenPlayerExists_ReturnsGames() {
         List<Game> results = gameRepository.findByPlayerId("player1");
         assertThat(results).isNotEmpty();
-        assertThat(results.get(0).getRoles().stream().anyMatch(role -> role.getPlayerId().equals("player1"))).isTrue();
+        assertThat(results.get(0).getStats().stream().anyMatch(role -> role.getPlayerId().equals("player1"))).isTrue();
     }
 }
