@@ -18,7 +18,7 @@ public interface BoardRepository extends MongoRepository<Board, String> {
     @Query("{'playerIds': ?0}")
     List<Board> findByPlayerId(String playerId);
 
-    @Query("{'tiles': {$all: ?0}}")
-    List<Board> findByTiles(List<String> tiles);
+    @Query("{'tileIds': {$in: ?0}}")
+    List<Board> findByTileIds(List<String> tileIds);
 
 }

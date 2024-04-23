@@ -3,8 +3,10 @@ package com.mtwesley.dictator.model.game;
 
 import lombok.*;
 import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -20,16 +22,28 @@ public class Game {
     private String id;
     private GameType type;
     private GameStatus status;
-    private List<String> playerIds;
+    private List<GameRole> roles;
 
     public enum GameType {
         DICTATOR
+    }
+
+    public enum GamePlayerRole {
+        DICTATOR,
+        CITIZEN
     }
 
     public enum GameStatus {
         PENDING,
         IN_PROGRESS,
         COMPLETED
+    }
+
+    @Data
+    public class GameRole {
+        @Indexed
+        private String playerId;
+        private GamePlayerRole role;
     }
 
     @Override

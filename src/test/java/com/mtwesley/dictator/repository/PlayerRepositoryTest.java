@@ -1,49 +1,63 @@
 package com.mtwesley.dictator.repository;
 
 import com.mtwesley.dictator.model.player.Player;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 
 @SpringBootTest
 public class PlayerRepositoryTest {
 
-//    @Autowired
-//    private PlayerRepository playerRepository;
-//
-//    @Test
-//    public void testSaveAndRetrievePlayer() {
-//        Player player = new Player("Normal Player");
-//        playerRepository.save(player);
-//
-//        Player foundPlayer = playerRepository.findById(player.getId()).orElse(null);
-//        assertThat(foundPlayer).isInstanceOf(Player.class);
-//        assertThat(foundPlayer.getName()).isEqualTo("Normal Player");
-//    }
-//
-//    @Test
-//    public void testSaveAndRetrieveDictator() {
-//        Player basePlayer = new Player("Dictator Player");
-//        Dictator dictator = new Dictator(basePlayer);
-//        playerRepository.save(dictator);
-//
-//        Player foundPlayer = playerRepository.findById(dictator.getId()).orElse(null);
-//        assertThat(foundPlayer).isInstanceOf(Dictator.class);
-//        assertThat(foundPlayer.getName()).isEqualTo("Dictator Player");
-//    }
-//
-//    @Test
-//    public void testSaveAndRetrieveCitizen() {
-//        Player basePlayer = new Player("Citizen Player");
-//        Citizen citizen = new Citizen(basePlayer);
-//        playerRepository.save(citizen);
-//
-//        Player foundPlayer = playerRepository.findById(citizen.getId()).orElse(null);
-//        assertThat(foundPlayer).isInstanceOf(Citizen.class);
-//        assertThat(foundPlayer.getName()).isEqualTo("Citizen Player");
-//    }
+    @Autowired
+    private PlayerRepository playerRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @BeforeEach
+    public void setUp() {
+        // Setup test data
+        Player player1 = new Player();
+        player1.setId("1");
+        player1.setUsername("testUser");
+        player1.setName("Test User");
+        player1.setHash("hashValue123");
+
+        Player player2 = new Player();
+        player2.setId("2");
+        player2.setUsername("testUser2");
+        player2.setName("Test User 2");
+        player2.setHash("hashValue456");
+
+        playerRepository.save(player1);
+        playerRepository.save(player2);
+    }
+
+    @AfterEach
+    public void tearDown() {}
+
+    @Test
+    public void findByUsername_WhenUserExists_ReturnsUser() {
+        Optional<Player> result = playerRepository.findByUsername("testUser");
+        assertThat(result).isNotEmpty();
+        assertThat(result.get().getUsername()).isEqualTo("testUser");
+    }
+
+    @Test
+    public void findByUsername_WhenUserDoesNotExist_ReturnsEmpty() {
+        Optional<Player> result = playerRepository.findByUsername("nonExistingUser");
+        assertThat(result).isEmpty();
+    }
 }
+

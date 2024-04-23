@@ -20,7 +20,7 @@ public abstract class Board {
     protected String id;
     protected int size;
     protected List<String> playerIds;
-    protected List<String> tiles;
+    protected List<String> tileIds;
 
     @Override
     public boolean equals(Object o) {
