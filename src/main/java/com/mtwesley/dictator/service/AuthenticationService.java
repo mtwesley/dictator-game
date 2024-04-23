@@ -2,7 +2,7 @@ package com.mtwesley.dictator.service;
 
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.repository.PlayerRepository;
-import com.mtwesley.dictator.security.TokenUtils;
+import com.mtwesley.dictator.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +26,7 @@ public class AuthenticationService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private TokenUtils tokenUtils;
+    private TokenUtil tokenUtil;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,19 +39,19 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public String refresh(String refreshToken) throws Exception {
-        String username = tokenUtils.extractUsername(refreshToken);
+        String username = tokenUtil.extractUsername(refreshToken);
         UserDetails userDetails = loadUserByUsername(username);
-        if (!tokenUtils.validateToken(refreshToken, userDetails)) {
+        if (!tokenUtil.validateToken(refreshToken, userDetails)) {
             throw new Exception("Invalid Refresh Token");
         }
-        return tokenUtils.generateToken(userDetails.getUsername());
+        return tokenUtil.generateToken(userDetails.getUsername());
     }
 
     public String login(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return tokenUtils.generateToken(userDetails.getUsername());
+        return tokenUtil.generateToken(userDetails.getUsername());
     }
 
     public Player register(String username, String password) {

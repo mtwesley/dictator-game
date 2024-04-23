@@ -11,15 +11,15 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Component
-public class TokenUtils {
+public class TokenUtil {
 
     @Value("${jwt.secret}")
-    private static String secretKey;
+    private String secretKey;
 
     @Value("${jwt.expiration}")
-    private static long expirationTime;
+    private long expirationTime;
 
-    public static String generateToken(String username) {
+    public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -28,15 +28,15 @@ public class TokenUtils {
                 .compact();
     }
 
-    public static String extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public static Date extractExpiration(String token) {
+    public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private static <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
@@ -44,12 +44,12 @@ public class TokenUtils {
         return claimsResolver.apply(claims);
     }
 
-    public static boolean validateToken(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private static boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 }
