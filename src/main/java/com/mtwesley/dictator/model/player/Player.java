@@ -1,12 +1,11 @@
 package com.mtwesley.dictator.model.player;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
 
 
 @Getter
@@ -16,13 +15,13 @@ import org.springframework.data.annotation.Id;
 @Document("players")
 @TypeAlias("Player")
 public class Player {
-    @Id
-    protected String id;
-    protected String name;
 
-    public Player(String name) {
-        this.name = name;
-    }
+    @Id
+    private String id;
+    private String name;
+    private String username;
+    @JsonIgnore
+    private String hash;
 
     @Override
     public boolean equals(Object o) {

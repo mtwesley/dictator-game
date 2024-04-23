@@ -5,19 +5,18 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface GameRepository extends MongoRepository<Game, String> {
+    List<Game> findByStatus(Game.GameStatus status);
 
-    List<Game> findByState(Game.GameState state);
+    List<Game> findByType(Game.GameType type);
 
-    List<Game> findByType(String type);
-
-    @Query("{ 'winners.?0': true }")
-    List<Game> findByWinningPlayerId(String playerId);
-
-    @Query("{ 'roles.playerId': ?0 }")
+    @Query("{ 'playerIds' : ?0 }")
     List<Game> findByPlayerId(String playerId);
 
+    @Query("{ 'playerIds' : { $in: ?0 } }")
+    List<Game> findByPlayerIds(Collection<String> playerIds);
 }

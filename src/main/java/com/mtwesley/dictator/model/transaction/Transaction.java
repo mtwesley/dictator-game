@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+
 
 @Getter
 @Setter
@@ -16,20 +16,15 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @Document("transactions")
 @TypeAlias("Transaction")
-public abstract class Transaction {
-    protected String id;
-    protected String type;
+public class Transaction {
 
-    @DBRef
-    @Field("fromPlayerId")
-    protected Player fromPlayer;
-
-    @DBRef
-    @Field("toPlayerId")
-    protected Player toPlayer;
-
-    protected int amount;
-    protected TransactionStatus status = TransactionStatus.PENDING;
+    @Id
+    private String id;
+    private Player fromPlayerId;
+    private Player toPlayerId;
+    private int coins;
+    private TransactionStatus status;
+    private TransactionType type;
 
     public enum TransactionStatus {
         PENDING,
@@ -37,27 +32,10 @@ public abstract class Transaction {
         REJECTED
     }
 
-    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer) {
-        this.type = type;
-        this.amount = amount;
-        this.fromPlayer = fromPlayer;
-        this.toPlayer = toPlayer;
-    }
-
-    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer, TransactionStatus status) {
-        this.type = type;
-        this.amount = amount;
-        this.fromPlayer = fromPlayer;
-        this.toPlayer = toPlayer;
-        this.status = status;
-    }
-
-    public Transaction(String type, int amount, Player fromPlayer, Player toPlayer, String status) {
-        this.type = type;
-        this.amount = amount;
-        this.fromPlayer = fromPlayer;
-        this.toPlayer = toPlayer;
-        this.status = TransactionStatus.valueOf(status);
+    public enum TransactionType {
+        OFFER,
+        ENDOWMENT,
+        TAX
     }
 
     @Override

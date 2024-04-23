@@ -1,41 +1,36 @@
-package com.mtwesley.dictator.model.game;
+package com.mtwesley.dictator.model.board;
 
-import com.mtwesley.dictator.model.player.Player;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Document("stats")
-@TypeAlias("Stats")
-public class Stats {
+@NoArgsConstructor
+@Document("tiles")
+@TypeAlias("Tile")
+public class Tile {
 
     @Id
     private String id;
+    private int coins;
+    private Position position;
 
-    @DBRef
-    private Player player;
-
-    @DBRef
-    private Game game;
-
-    private int score;
-    private boolean isWinner;
+    private List<String> playerIds;
+    private List<String> gameIds;
+    private String boardId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        if (!(o instanceof Stats)) return false;
-        Stats other = (Stats) o;
+        if (!(o instanceof Tile)) return false;
+        Tile other = (Tile) o;
         return id != null && !id.isEmpty() && id.equals(other.getId());
     }
 
