@@ -12,6 +12,10 @@ public interface BoardRepository extends MongoRepository<Board, String> {
 
     List<Board> findBySize(int size);
 
+    List<Board> findByType(Board.BoardType type);
+
+    List<Board> findByType(String type);
+
     @Query("{'playerIds': {$size: ?0}}")
     List<Board> findByNumberOfPlayers(int numberOfPlayers);
 

@@ -14,13 +14,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Document("boards")
 @TypeAlias("Board")
-public abstract class Board {
+public class Board {
 
     @Id
     protected String id;
+    protected BoardType type;
     protected int size;
     protected List<String> playerIds;
     protected List<String> tileIds;
+
+    public enum BoardType {
+        SQUARE,
+        RECTANGLE
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -4,6 +4,7 @@ import com.mtwesley.dictator.model.player.Player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.mtwesley.dictator.service.MetadataService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -23,11 +22,15 @@ public class PlayerRepositoryTest {
     private PlayerRepository playerRepository;
 
     @Autowired
+    private MetadataService metadataService;
+
+    @Autowired
     private MongoTemplate mongoTemplate;
 
     @BeforeEach
     public void setUp() {
-        // Setup test data
+        mongoTemplate.dropCollection(metadataService.getCollectionName(Player.class));
+
         Player player1 = new Player();
         player1.setId("1");
         player1.setUsername("testUser");
@@ -45,7 +48,9 @@ public class PlayerRepositoryTest {
     }
 
     @AfterEach
-    public void tearDown() {}
+    public void tearDown() {
+        mongoTemplate.dropCollection(metadataService.getCollectionName(Player.class));
+    }
 
     @Test
     public void findByUsername_WhenUserExists_ReturnsUser() {

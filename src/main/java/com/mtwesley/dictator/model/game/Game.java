@@ -22,13 +22,13 @@ public class Game {
     private String id;
     private GameType type;
     private GameStatus status;
-    private List<GameRole> roles;
+    private List<GameStats> roles;
 
     public enum GameType {
         DICTATOR
     }
 
-    public enum GamePlayerRole {
+    public enum GameRole {
         DICTATOR,
         CITIZEN
     }
@@ -39,11 +39,14 @@ public class Game {
         COMPLETED
     }
 
-    @Data
-    public class GameRole {
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GameStats {
         @Indexed
         private String playerId;
-        private GamePlayerRole role;
+        private GameRole role;
     }
 
     @Override

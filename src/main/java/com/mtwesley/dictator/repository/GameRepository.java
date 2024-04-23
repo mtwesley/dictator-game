@@ -14,8 +14,10 @@ public interface GameRepository extends MongoRepository<Game, String> {
 
     List<Game> findByType(Game.GameType type);
 
+    List<Game> findByType(String type);
+
     @Query("{ 'roles': { $elemMatch: { 'playerId': ?0, 'role': ?1 } } }")
-    List<Game> findByPlayerIdAndRole(String playerId, Game.GameRole role);
+    List<Game> findByPlayerIdAndRole(String playerId, Game.GameStats role);
 
     @Query("{ 'roles': { $elemMatch: { 'playerId': ?0 } } }")
     List<Game> findByPlayerId(String playerId);
@@ -24,6 +26,6 @@ public interface GameRepository extends MongoRepository<Game, String> {
     List<Game> findByPlayerIds(Collection<String> playerIds);
 
     @Query("{ 'roles': { $elemMatch: { 'role': ?0 } } }")
-    List<Game> findByRole(Game.GameRole role);
+    List<Game> findByRole(Game.GameStats role);
 
 }

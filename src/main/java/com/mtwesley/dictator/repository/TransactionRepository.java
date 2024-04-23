@@ -12,7 +12,11 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
     List<Transaction> findByStatus(Transaction.TransactionStatus status);
 
+    List<Transaction> findByStatus(String status);
+
     List<Transaction> findByType(Transaction.TransactionType type);
+
+    List<Transaction> findByType(String type);
 
     @Query("{$or: [{'fromPlayerId': ?0}, {'toPlayerId': ?0}]}")
     List<Transaction> findByPlayerId(String playerId);
@@ -28,5 +32,8 @@ public interface TransactionRepository extends MongoRepository<Transaction, Stri
 
     @Query("{$and: [{'type': ?0}, {'status': ?1}]}")
     List<Transaction> findByTypeAndStatus(Transaction.TransactionType type, Transaction.TransactionStatus status);
+
+    @Query("{$and: [{'type': ?0}, {'status': ?1}]}")
+    List<Transaction> findByTypeAndStatus(String type, String status);
 
 }
