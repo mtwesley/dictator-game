@@ -1,13 +1,12 @@
 package com.mtwesley.dictator.controller;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.model.security.LoginRequest;
 import com.mtwesley.dictator.model.security.RegisterRequest;
-import com.mtwesley.dictator.security.SecurityUtils;
 import com.mtwesley.dictator.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,31 +22,35 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@WebMvcTest(AuthenticationController.class)
-//@ExtendWith(MockitoExtension.class)
 class AuthenticationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
     @MockBean
     private AuthenticationService authenticationService;
+
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ObjectMapper objectMapper;
 
+//    @BeforeEach
+//    void setUp() {
+//        // Mocking password encoding for consistency in tests
+//        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+//    }
+
     @Test
     void testLogin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("user", "pass");
+
         when(authenticationService.login("user", "pass")).thenReturn("mockToken");
 
         mockMvc.perform(post("/login")
@@ -56,18 +59,18 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("mockToken"));
 
-        verify(authenticationService, times(1)).login("user", "pass");
+        verify(authenticationService).login("user", "pass");
     }
 
     @Test
     void testRegister() throws Exception {
         RegisterRequest registerRequest = new RegisterRequest("newUser", "newPass");
 
-        Player mockPlayer = new Player(); // Assuming default constructor is available
+        Player mockPlayer = new Player();
         mockPlayer.setUsername("newUser");
-        mockPlayer.setHash(passwordEncoder.encode("newPass")); // Mock the encoding process
+        mockPlayer.setHash("newPass");
 
-        when(authenticationService.register("newUser", "newPass")).thenReturn(mockPlayer);
+        when(authenticationService.register(anyString(), anyString())).thenReturn(mockPlayer);
         when(authenticationService.login("newUser", "newPass")).thenReturn("mockToken");
 
         mockMvc.perform(post("/register")
@@ -76,21 +79,28 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("mockToken"));
 
-        verify(authenticationService, times(1)).register("newUser", "newPass");
-        verify(authenticationService, times(1)).login("newUser", "newPass");
+        verify(authenticationService).register("newUser", "newPass");
+        verify(authenticationService).login("newUser", "newPass");
     }
 
     @Test
     void testRefreshToken() throws Exception {
-        when(authenticationService.refresh("mockRefreshToken")).thenReturn("newMockToken");
-        when(SecurityUtils.getCurrentUsername()).thenReturn("user");
+        LoginRequest loginRequest = new LoginRequest("user", "pass");
+
+        when(authenticationService.login("user", "pass")).thenReturn("mockToken");
+        when(authenticationService.refresh("mockToken")).thenReturn("newMockToken");
+
+        mockMvc.perform(post("/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("mockToken"));
 
         mockMvc.perform(post("/refresh")
-                        .param("refreshToken", "mockRefreshToken"))
+                        .param("refreshToken", "mockToken"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("newMockToken"));
 
-        verify(authenticationService, times(1)).refresh("mockRefreshToken");
+        verify(authenticationService).refresh("mockToken");
     }
 }
-

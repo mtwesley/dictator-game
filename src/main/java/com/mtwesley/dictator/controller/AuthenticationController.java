@@ -2,6 +2,7 @@ package com.mtwesley.dictator.controller;
 
 import com.mtwesley.dictator.model.security.AuthenticationResponse;
 import com.mtwesley.dictator.model.security.LoginRequest;
+import com.mtwesley.dictator.model.security.RefreshRequest;
 import com.mtwesley.dictator.model.security.RegisterRequest;
 import com.mtwesley.dictator.security.SecurityUtils;
 import com.mtwesley.dictator.service.AuthenticationService;
@@ -38,15 +39,13 @@ public class AuthenticationController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@RequestParam("refreshToken") String refreshToken) {
+    public ResponseEntity<?> refresh(@RequestBody RefreshRequest refreshRequest) {
         try {
-            String newToken = authenticationService.refresh(refreshToken);
+            String newToken = authenticationService.refresh(refreshRequest.getRefreshToken());
             return ResponseEntity.ok(new AuthenticationResponse(SecurityUtils.getCurrentUsername(), newToken));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Invalid refresh token");
         }
-    }
-}
+    }}
 

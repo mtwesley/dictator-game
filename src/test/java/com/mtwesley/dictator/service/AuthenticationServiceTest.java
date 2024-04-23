@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Optional;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 class AuthenticationServiceTest {
 
     @Mock
