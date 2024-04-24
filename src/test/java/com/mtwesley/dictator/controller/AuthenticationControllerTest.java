@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,17 +86,9 @@ class AuthenticationControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", roles = {"USER"})
     void testRefreshToken() throws Exception {
-        LoginRequest loginRequest = new LoginRequest("user", "pass");
-
-        when(authenticationService.login("user", "pass")).thenReturn("mockToken");
         when(authenticationService.refresh("mockToken")).thenReturn("newMockToken");
-
-        mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginRequest)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.token").value("mockToken"));
 
         RefreshRequest refreshRequest = new RefreshRequest("mockToken");
         mockMvc.perform(post("/refresh")
