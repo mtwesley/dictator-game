@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.mtwesley.dictator.model.player.Player;
 import com.mtwesley.dictator.model.security.LoginRequest;
+import com.mtwesley.dictator.model.security.RefreshRequest;
 import com.mtwesley.dictator.model.security.RegisterRequest;
 import com.mtwesley.dictator.service.AuthenticationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,8 +97,10 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("mockToken"));
 
+        RefreshRequest refreshRequest = new RefreshRequest("mockToken");
         mockMvc.perform(post("/refresh")
-                        .param("refreshToken", "mockToken"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(refreshRequest)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("newMockToken"));
 
