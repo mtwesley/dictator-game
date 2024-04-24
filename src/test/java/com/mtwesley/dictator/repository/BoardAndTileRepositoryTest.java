@@ -37,21 +37,21 @@ public class BoardAndTileRepositoryTest {
         mongoTemplate.dropCollection(metadataService.getCollectionName(Board.class));
         mongoTemplate.dropCollection(metadataService.getCollectionName(Tile.class));
 
-        createAndSaveBoardWithTiles(8, "board1", Board.BoardType.SQUARE);
-        createAndSaveBoardWithTiles(10, "board2", Board.BoardType.RECTANGLE);
+        createAndSaveBoardWithTiles("board1", 8, 8); // Assuming a square board
+        createAndSaveBoardWithTiles("board2", 10, 5); // Assuming a rectangular board
     }
 
-    private void createAndSaveBoardWithTiles(int size, String boardId, Board.BoardType type) {
+    private void createAndSaveBoardWithTiles(String boardId, int width, int height) {
         List<String> tileIds = new ArrayList<>();
-        IntStream.range(0, size).forEach(i -> {
+        IntStream.range(0, width * height).forEach(i -> {
             Tile tile = new Tile(
                     "tile" + i + "-" + boardId, i * 5,
-                    new Position(i % size, i / size), new ArrayList<>(), new ArrayList<>(), boardId);
+                    new Position(i % width, i / width), new ArrayList<>(), new ArrayList<>(), boardId);
             tileRepository.save(tile);
             tileIds.add(tile.getId());
         });
 
-        Board board = new Board(boardId, type, size, new ArrayList<>(), tileIds);
+        Board board = new Board(boardId, width, height, new ArrayList<>(), tileIds);
         boardRepository.save(board);
     }
 
@@ -62,24 +62,24 @@ public class BoardAndTileRepositoryTest {
     }
 
     @Test
-    public void testFindByType() {
-        List<Board> squareBoards = boardRepository.findByType(Board.BoardType.SQUARE);
-        assertThat(squareBoards).hasSize(1);
-        assertThat(squareBoards.get(0).getType()).isEqualTo(Board.BoardType.SQUARE);
+    public void testFindBySize() {
+        List<Board> boards = boardRepository.findBySize(64); // Assuming 8x8 board
+        assertThat(boards).hasSize(1);
+        assertThat(boards.get(0).getWidth() * boards.get(0).getHeight()).isEqualTo(64);
 
-        List<Board> rectangleBoards = boardRepository.findByType(Board.BoardType.RECTANGLE);
-        assertThat(rectangleBoards).hasSize(1);
-        assertThat(rectangleBoards.get(0).getType()).isEqualTo(Board.BoardType.RECTANGLE);
+        boards = boardRepository.findBySize(50); // Assuming 10x5 board
+        assertThat(boards).hasSize(1);
+        assertThat(boards.get(0).getWidth() * boards.get(0).getHeight()).isEqualTo(50);
     }
 
     @Test
     public void testBoardAndTilesCreation() {
         Board board = boardRepository.findById("board1").orElse(null);
         assertThat(board).isNotNull();
-        assertThat(board.getTileIds()).hasSize(8);
+        assertThat(board.getTileIds()).hasSize(64); // 8x8 board
 
         List<Tile> tiles = tileRepository.findByBoardId("board1");
-        assertThat(tiles).hasSize(8);
+        assertThat(tiles).hasSize(64);
         tiles.forEach(tile -> assertThat(tile.getBoardId()).isEqualTo("board1"));
     }
 

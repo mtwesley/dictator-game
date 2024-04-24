@@ -24,29 +24,34 @@ public class BoardRepositoryTest {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Autowired
-    private MetadataService metadataService;
-
     @BeforeEach
     public void setUp() {
-        mongoTemplate.dropCollection(metadataService.getCollectionName(Board.class));
+        mongoTemplate.dropCollection(Board.class);
 
-        Board board1 = new Board("board1", Board.BoardType.RECTANGLE, 8, Arrays.asList("player1"), Arrays.asList("tile1", "tile2"));
-        Board board2 = new Board("board2", Board.BoardType.SQUARE, 10, Arrays.asList("player3", "player4"), Arrays.asList("tile3", "tile4"));
+        // Create boards with various dimensions
+        Board board1 = new Board("board1", 3, 4, Arrays.asList("player1"), Arrays.asList("tile1", "tile2"));
+        Board board2 = new Board("board2", 10, 10, Arrays.asList("player3", "player4"), Arrays.asList("tile3", "tile4"));
 
         boardRepository.saveAll(Arrays.asList(board1, board2));
     }
 
     @AfterEach
     public void tearDown() {
-        mongoTemplate.dropCollection(metadataService.getCollectionName(Board.class));
+        mongoTemplate.dropCollection(Board.class);
     }
 
     @Test
     public void findBySize_WhenBoardsExist_ReturnsCorrectBoards() {
-        List<Board> results = boardRepository.findBySize(8);
+        List<Board> results = boardRepository.findBySize(12);
         assertThat(results).hasSize(1);
-        assertThat(results.get(0).getSize()).isEqualTo(8);
+        assertThat(results.get(0).getWidth() * results.get(0).getHeight()).isEqualTo(12);
+    }
+
+    @Test
+    public void findBySizeGreaterThanEqual_WhenBoardsExist_ReturnsCorrectBoards() {
+        List<Board> results = boardRepository.findBySizeGreaterThanEqual(100);
+        assertThat(results).hasSize(1);
+        assertThat(results.get(0).getWidth() * results.get(0).getHeight()).isGreaterThanOrEqualTo(100);
     }
 
     @Test

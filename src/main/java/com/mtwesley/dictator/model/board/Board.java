@@ -17,15 +17,25 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Board {
 
     @Id
-    protected String id;
-    protected BoardType type;
-    protected int size;
-    protected List<String> playerIds;
-    protected List<String> tileIds;
+    private String id;
+    private int width;
+    private int height;
+    private List<String> playerIds;
+    private List<String> tileIds;
 
-    public enum BoardType {
-        SQUARE,
-        RECTANGLE
+    public boolean isValidPosition(Position position) {
+        return position.getX() >= 0 && position.getX() < width &&
+                position.getY() >= 0 && position.getY() < height;
+    }
+
+    public int getIndexFromPosition(Position position) {
+        return position.getY() * width + position.getX();
+    }
+
+    public Position getPositionFromIndex(int index) {
+        int x = index % width;
+        int y = index / width;
+        return new Position(x, y);
     }
 
     @Override
