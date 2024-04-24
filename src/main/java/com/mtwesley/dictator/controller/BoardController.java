@@ -1,13 +1,55 @@
 package com.mtwesley.dictator.controller;
 
+import com.mtwesley.dictator.model.board.Board;
 import com.mtwesley.dictator.model.board.Direction;
 import com.mtwesley.dictator.model.board.Position;
+import com.mtwesley.dictator.model.board.Tile;
 import com.mtwesley.dictator.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import com.mtwesley.dictator.service.BoardService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/boards")
 public class BoardController {
+
+    @Autowired
+    private BoardService boardService;
+
+    @GetMapping("/default")
+    public ResponseEntity<Board> getDefaultBoard() {
+        Board board = boardService.getDefaultBoard();
+        if (board == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(board);
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Board> getBoardById(@PathVariable String boardId) {
+        Board board = boardService.getBoardById(boardId);
+        if (board == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(board);
+    }
+
+    @GetMapping("/{boardId}/tiles")
+    public ResponseEntity<List<Tile>> getAllTilesFromBoard(@PathVariable String boardId) {
+        List<Tile> tiles = boardService.getTilesByBoardId(boardId);
+        if (tiles == null || tiles.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tiles);
+    }
+
+}
 
 //    protected int[] playersPerTileCounts;
 //    protected int maxPlayersPerTile;
@@ -99,4 +141,4 @@ public class BoardController {
 //        }
 //        return false;
 //    }
-}
+

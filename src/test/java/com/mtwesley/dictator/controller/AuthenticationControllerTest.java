@@ -43,12 +43,6 @@ class AuthenticationControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @BeforeEach
-//    void setUp() {
-//        // Mocking password encoding for consistency in tests
-//        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
-//    }
-
     @Test
     void testLogin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("user", "pass");

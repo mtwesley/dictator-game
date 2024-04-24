@@ -63,6 +63,20 @@ public class BoardService {
         }
     }
 
+    public Board getDefaultBoard() {
+        return boardRepository.findAll().stream()
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Board getBoardById(String defaultBoardId) {
+        return boardRepository.findById(defaultBoardId).orElse(null);
+    }
+
+    public List<Tile> getTilesByBoardId(String boardId) {
+        return tileRepository.findByBoardId(boardId);
+    }
+
     public Board createBoard(int width, int height) {
         Board board = new Board();
         board.setWidth(width);

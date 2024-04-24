@@ -20,8 +20,8 @@ public class Board {
     private String id;
     private int width;
     private int height;
-    private List<String> playerIds;
-    private List<String> tileIds;
+    private List<String> playerIds = new ArrayList<>();
+    private List<String> tileIds = new ArrayList<>();
 
     public boolean isValidPosition(Position position) {
         return position.getX() >= 0 && position.getX() < width &&
