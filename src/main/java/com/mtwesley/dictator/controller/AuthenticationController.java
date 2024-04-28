@@ -7,6 +7,7 @@ import com.mtwesley.dictator.model.security.RegisterRequest;
 import com.mtwesley.dictator.security.SecurityUtils;
 import com.mtwesley.dictator.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,12 @@ public class AuthenticationController {
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/register/check")
+    public ResponseEntity<?> checkUsernameExists(@RequestParam String username) {
+        boolean exists = authenticationService.usernameExists(username);
+        return exists ? ResponseEntity.status(HttpStatus.CONFLICT).build() : ResponseEntity.ok(exists);
     }
 
     @PostMapping("/refresh")

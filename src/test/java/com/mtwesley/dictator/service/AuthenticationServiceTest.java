@@ -74,4 +74,17 @@ class AuthenticationServiceTest {
         assertNotNull(token);
         assertEquals("fakeToken", token);
     }
+
+    @Test
+    void testUsernameExists() {
+        when(playerRepository.existsByUsername("existingUser")).thenReturn(true);
+        when(playerRepository.existsByUsername("nonExistingUser")).thenReturn(false);
+
+        assertTrue(authenticationService.usernameExists("existingUser"));
+        assertFalse(authenticationService.usernameExists("nonExistingUser"));
+
+        verify(playerRepository).existsByUsername("existingUser");
+        verify(playerRepository).existsByUsername("nonExistingUser");
+    }
+
 }

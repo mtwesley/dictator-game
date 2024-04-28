@@ -38,6 +38,10 @@ public class AuthenticationService implements UserDetailsService {
         return new User(player.getUsername(), player.getHash(), Collections.emptyList());
     }
 
+    public boolean usernameExists(String username) {
+        return playerRepository.existsByUsername(username);
+    }
+
     public String refresh(String token) throws Exception {
         String username = tokenUtil.extractUsername(token);
         UserDetails userDetails = loadUserByUsername(username);

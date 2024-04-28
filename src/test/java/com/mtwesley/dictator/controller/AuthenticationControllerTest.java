@@ -80,7 +80,7 @@ class AuthenticationControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", roles = {"USER"})
+    @WithMockUser
     void testRefreshToken() throws Exception {
         when(authenticationService.refresh("mockToken")).thenReturn("newMockToken");
 
@@ -92,5 +92,17 @@ class AuthenticationControllerTest {
                 .andExpect(jsonPath("$.token").value("newMockToken"));
 
         verify(authenticationService).refresh("mockToken");
+    }
+
+    @Test
+    void testCheckUsernameExists() throws Exception {
+        when(authenticationService.usernameExists("existingUser")).thenReturn(true);
+        when(authenticationService.usernameExists("nonExistingUser")).thenReturn(false);
+
+        mockMvc.perform(get("/register/check").param("username", "existingUser"))
+                .andExpect(status().isConflict());
+
+        mockMvc.perform(get("/register/check").param("username", "nonExistingUser"))
+                .andExpect(status().isOk());
     }
 }
