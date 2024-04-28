@@ -8,7 +8,6 @@ import com.mtwesley.dictator.security.SecurityUtils;
 import com.mtwesley.dictator.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,10 +41,11 @@ public class AuthenticationController {
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestBody RefreshRequest refreshRequest) {
         try {
-            String newToken = authenticationService.refresh(refreshRequest.getRefreshToken());
+            String newToken = authenticationService.refresh(refreshRequest.getToken());
             return ResponseEntity.ok(new AuthenticationResponse(SecurityUtils.getCurrentUsername(), newToken));
         } catch (Exception ex) {
             return ResponseEntity.badRequest().body("Invalid refresh token");
         }
-    }}
+    }
+}
 

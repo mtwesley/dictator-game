@@ -2,6 +2,8 @@ package com.mtwesley.dictator.model.board;
 
 
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
@@ -21,8 +23,8 @@ public class Tile {
     private int coins;
     private Position position;
 
-    private List<String> playerIds;
-    private List<String> gameIds;
+    private List<String> playerIds = new ArrayList<>();
+    private List<String> gameIds = new ArrayList<>();
     private String boardId;
 
     @Override

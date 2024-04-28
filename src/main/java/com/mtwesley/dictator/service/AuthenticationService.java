@@ -38,10 +38,10 @@ public class AuthenticationService implements UserDetailsService {
         return new User(player.getUsername(), player.getHash(), Collections.emptyList());
     }
 
-    public String refresh(String refreshToken) throws Exception {
-        String username = tokenUtil.extractUsername(refreshToken);
+    public String refresh(String token) throws Exception {
+        String username = tokenUtil.extractUsername(token);
         UserDetails userDetails = loadUserByUsername(username);
-        if (!tokenUtil.validateToken(refreshToken, userDetails)) {
+        if (!tokenUtil.validateToken(token, userDetails)) {
             throw new Exception("Invalid Refresh Token");
         }
         return tokenUtil.generateToken(userDetails.getUsername());

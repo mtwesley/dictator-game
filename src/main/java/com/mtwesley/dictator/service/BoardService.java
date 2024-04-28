@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
@@ -47,26 +48,17 @@ public class BoardService {
     private int defaultMaxCoinsPerTile;
 
     @PostConstruct
-    @Transactional
     public void initializeDefaultBoard() {
         if (boardRepository.count() == 0) {
             Board board = createBoard(defaultWidth, defaultHeight);
             List<Tile> tiles = createBoardTiles(board, defaultWidth * defaultHeight,
                     defaultCoinProbability, defaultTotalCoins,
                     defaultMinCoinsPerTile, defaultMaxCoinsPerTile);
-            if (!validateBoard(board, tiles)) {
-                throw new IllegalStateException("Failed to validate the new board.");
-            }
-            tiles.forEach(tile -> board.getTileIds().add(tile.getId()));
-            tileRepository.saveAll(tiles);
-            boardRepository.save(board);
         }
     }
 
     public Board getDefaultBoard() {
-        return boardRepository.findAll().stream()
-                .findFirst()
-                .orElse(null);
+        return boardRepository.findAll().stream().findFirst().orElse(null);
     }
 
     public Board getBoardById(String defaultBoardId) {
@@ -77,13 +69,20 @@ public class BoardService {
         return tileRepository.findByBoardId(boardId);
     }
 
+    public List<Tile> getTilesByDefaultBoard() {
+        return tileRepository.findByBoardId(getDefaultBoard().getId());
+    }
+
+    @Transactional
     public Board createBoard(int width, int height) {
         Board board = new Board();
         board.setWidth(width);
         board.setHeight(height);
+        boardRepository.save(board);
         return board;
     }
 
+    @Transactional
     public List<Tile> createBoardTiles(Board board, int numTiles, double coinProbability,
                                        int totalCoins, int minCoins, int maxCoins) {
         List<Tile> tiles = new ArrayList<>();
@@ -105,16 +104,25 @@ public class BoardService {
 
             tiles.add(tile);
         }
-
+        tileRepository.saveAll(tiles);
+        if (!validateBoard(board, tiles)) {
+            throw new IllegalStateException("Failed to validate the new board.");
+        }
+        board.setTileIds(tiles.stream().map(tile -> tile.getId()).collect(Collectors.toList()));
+        boardRepository.save(board);
         return tiles;
     }
 
     public boolean validateBoard(Board board, List<Tile> tiles) {
+        if (tiles == null) {
+            return false;
+        }
         if (tiles.isEmpty()) {
             return true;
-        } else if (tiles.size() == board.getWidth() * board.getHeight()) {
-            return tiles.stream().allMatch(tile -> board.isValidPosition(tile.getPosition()));
         }
-        return false;
+        if (tiles.size() != board.getWidth() * board.getHeight()) {
+            return false;
+        }
+        return tiles.stream().allMatch(tile -> tile.getId() != null && board.isValidPosition(tile.getPosition()));
     }
 }

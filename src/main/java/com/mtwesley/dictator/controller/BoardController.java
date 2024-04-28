@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/boards")
 public class BoardController {
 
@@ -31,6 +32,15 @@ public class BoardController {
         return ResponseEntity.ok(board);
     }
 
+    @GetMapping("/default/tiles")
+    public ResponseEntity<List<Tile>> getTilesByDefaultBoard() {
+        List<Tile> tiles = boardService.getTilesByDefaultBoard();
+        if (tiles == null || tiles.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(tiles);
+    }
+
     @GetMapping("/{boardId}")
     public ResponseEntity<Board> getBoardById(@PathVariable String boardId) {
         Board board = boardService.getBoardById(boardId);
@@ -41,7 +51,7 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}/tiles")
-    public ResponseEntity<List<Tile>> getAllTilesFromBoard(@PathVariable String boardId) {
+    public ResponseEntity<List<Tile>> getTilesByBoardId(@PathVariable String boardId) {
         List<Tile> tiles = boardService.getTilesByBoardId(boardId);
         if (tiles == null || tiles.isEmpty()) {
             return ResponseEntity.notFound().build();
