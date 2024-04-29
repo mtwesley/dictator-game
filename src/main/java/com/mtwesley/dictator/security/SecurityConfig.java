@@ -1,6 +1,5 @@
-package com.mtwesley.dictator.config;
+package com.mtwesley.dictator.security;
 
-import com.mtwesley.dictator.security.TokenRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/login", "/register").permitAll()
-//                .anyRequest().authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement()

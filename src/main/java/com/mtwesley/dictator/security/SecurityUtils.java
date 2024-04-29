@@ -17,7 +17,7 @@ public class SecurityUtils {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return userDetails.getUsername();
         }
-        return null; // User not authenticated
+        return null;
     }
 
     public static List<String> getCurrentUserAuthorities() {
@@ -29,7 +29,7 @@ public class SecurityUtils {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
         }
-        return Collections.emptyList(); // No authorities or user not authenticated
+        return Collections.emptyList();
     }
 
     public static boolean isAccountEnabled() {
@@ -38,6 +38,6 @@ public class SecurityUtils {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             return userDetails.isEnabled();
         }
-        return false; // User not authenticated or account not enabled
+        return false;
     }
 }

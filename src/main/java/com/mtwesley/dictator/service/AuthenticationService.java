@@ -38,6 +38,11 @@ public class AuthenticationService implements UserDetailsService {
         return new User(player.getUsername(), player.getHash(), Collections.emptyList());
     }
 
+    public Player getPlayerByUsername(String username) throws UsernameNotFoundException {
+        return playerRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("No user found with username: " + username));
+    }
+
     public boolean usernameExists(String username) {
         return playerRepository.existsByUsername(username);
     }
@@ -58,11 +63,12 @@ public class AuthenticationService implements UserDetailsService {
         return tokenUtil.generateToken(userDetails.getUsername());
     }
 
-    public Player register(String username, String password) {
+    public Player register(String name, String username, String password) {
         if (playerRepository.findByUsername(username).isPresent()) {
             throw new IllegalStateException("Username already exists");
         }
         Player newPlayer = new Player();
+        newPlayer.setName(name);
         newPlayer.setUsername(username);
         newPlayer.setHash(passwordEncoder.encode(password));
         playerRepository.save(newPlayer);
