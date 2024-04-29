@@ -16,7 +16,7 @@ The game will features multiple levels, tiles, and dynamic roles, providing a ri
 ## Technologies Used
 
 - Spring Boot for the application framework.
-- Spring Web for handling HTTP requests.
+- Spring Web to handle HTTP requests.
 - Spring Data MongoDB for database interactions.
 - Spring Security for authentication and authorization.
 - WebSocket for real-time communication.
