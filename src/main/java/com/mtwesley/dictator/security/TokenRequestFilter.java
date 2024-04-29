@@ -2,6 +2,7 @@ package com.mtwesley.dictator.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,7 +48,7 @@ public class TokenRequestFilter extends OncePerRequestFilter {
                     }
                 }
             }
-        } catch (ExpiredJwtException | MalformedJwtException e) {
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
