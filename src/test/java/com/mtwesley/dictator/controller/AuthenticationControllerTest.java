@@ -60,13 +60,13 @@ class AuthenticationControllerTest {
 
     @Test
     void testRegister() throws Exception {
-        RegisterRequest registerRequest = new RegisterRequest("newUser", "newPass");
+        RegisterRequest registerRequest = new RegisterRequest("New User", "newUser", "newPass");
 
         Player mockPlayer = new Player();
         mockPlayer.setUsername("newUser");
         mockPlayer.setHash("newPass");
 
-        when(authenticationService.register(anyString(), anyString())).thenReturn(mockPlayer);
+        when(authenticationService.register(anyString(), anyString(), anyString())).thenReturn(mockPlayer);
         when(authenticationService.login("newUser", "newPass")).thenReturn("mockToken");
 
         mockMvc.perform(post("/register")
@@ -75,7 +75,7 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("mockToken"));
 
-        verify(authenticationService).register("newUser", "newPass");
+        verify(authenticationService).register("New User", "newUser", "newPass");
         verify(authenticationService).login("newUser", "newPass");
     }
 
@@ -99,10 +99,7 @@ class AuthenticationControllerTest {
         when(authenticationService.usernameExists("existingUser")).thenReturn(true);
         when(authenticationService.usernameExists("nonExistingUser")).thenReturn(false);
 
-        mockMvc.perform(get("/register/check").param("username", "existingUser"))
-                .andExpect(status().isConflict());
-
-        mockMvc.perform(get("/register/check").param("username", "nonExistingUser"))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/register/check/existingUser")).andExpect(status().isConflict());
+        mockMvc.perform(get("/register/check/nonExistingUser")).andExpect(status().isNoContent());
     }
 }

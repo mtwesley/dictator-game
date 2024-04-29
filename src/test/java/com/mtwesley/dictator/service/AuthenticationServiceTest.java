@@ -56,8 +56,9 @@ class AuthenticationServiceTest {
 
         when(playerRepository.save(any(Player.class))).thenReturn(player);
 
-        Player result = authenticationService.register("testUser", "password");
+        Player result = authenticationService.register("Test User", "testUser", "password");
         assertNotNull(result);
+        assertEquals("Test User", result.getName());
         assertEquals("testUser", result.getUsername());
         assertEquals("encodedPassword", result.getHash());
     }
