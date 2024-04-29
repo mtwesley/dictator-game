@@ -1,0 +1,9 @@
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/controller/AuthenticationControllerTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/controller/BoardControllerTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/repository/TileRepositoryTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/integration/MongoConnectionTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/repository/BoardAndTileRepositoryTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/repository/GameRepositoryTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/service/AuthenticationServiceTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/repository/BoardRepositoryTest.java
+/Users/mtwesley/Development/dictator-game/src/test/java/com/mtwesley/dictator/repository/PlayerRepositoryTest.java

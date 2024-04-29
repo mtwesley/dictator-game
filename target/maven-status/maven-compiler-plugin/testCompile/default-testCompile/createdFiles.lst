@@ -1,0 +1,9 @@
+com/mtwesley/dictator/repository/TileRepositoryTest.class
+com/mtwesley/dictator/integration/MongoConnectionTest.class
+com/mtwesley/dictator/repository/GameRepositoryTest.class
+com/mtwesley/dictator/service/AuthenticationServiceTest.class
+com/mtwesley/dictator/repository/PlayerRepositoryTest.class
+com/mtwesley/dictator/controller/BoardControllerTest.class
+com/mtwesley/dictator/repository/BoardAndTileRepositoryTest.class
+com/mtwesley/dictator/repository/BoardRepositoryTest.class
+com/mtwesley/dictator/controller/AuthenticationControllerTest.class
